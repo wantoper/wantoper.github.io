@@ -1,0 +1,38 @@
+<!DOCTYPE html><html lang="cn"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><link rel="shortcut icon" href="/assets/imgs/favicon.ico" type="image/x-icon"><title>分类 | Wantoper</title><meta name="keywords" content=""><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"><link rel="stylesheet" href="https://at.alicdn.com/t/c/font_3435803_wadmwlqwhps.css"><link rel="stylesheet" href="/style/index.css"><link rel="stylesheet" href="/assets/lib/prettify/prettify.css"><link rel="stylesheet" href="/assets/lib/fancybox/fancybox.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="app"><header class="header yu13_p_30" id="header"><div class="header_left"><h1 class="yu13_logo"><a id="logo" href="/">Wantoper</a></h1></div><div class="header_right"><div class="header_search yu13_cursor yu13_hover" id="search"><i class="yufont icon-sousuo"></i></div><div class="line yu13_p_10"></div><nav class="header_nav"><ul class="nav"><li class="menu_nav"><a href="/"><i class="fas"></i><span> 首页</span></a></li><li class="menu_nav"><a href="/archives"><i class="fas"></i><span> 归档</span></a></li><li class="menu_nav"><a href="/categorys"><i class="fas"></i><span> 分类</span></a></li><li class="menu_nav"><a href="/tags"><i class="fas"></i><span> 标签</span></a></li><li class="menu_nav"><a href="/links"><i class="fas"></i><span> 友情链接</span></a></li></ul></nav></div></header><div class="article_topbg" style="background-image: url('/assets/imgs/top_bg.jpg')"><div class="topbg_container"><h2 class="title">分类</h2><div class="info"></div></div></div><div class="container log_container clearfix"><div class="article_content left"> <div class="article_main"><article class="content"><div class="content_text article_text"><div class="archive_lists"><div class="category-list"><li><a href="/categories/Python/">Python (3)</a></li></div></div></div></article></div></div><div class="article_sidebar left"><div class="author_sidebar sidebar_container"><div class="author_info"><div class="avatar"><img class="yu13_img_rotate" src="/assets/imgs/avatar.jpg" alt=""/></div><div class="author_name"><h3><a href="/about">Wantoper</a></h3><p>不断学习，不断提升！</p></div></div><div class="author_data"><ul><li> <div> <span>6</span><p>文章</p></div></li><li> <div> <span>1</span><p>分类</p></div></li><li> <div> <span>1</span><p>标签</p></div></li></ul></div></div><div class="sidebar_tags sidebar_container"><h3 class="sidebar_title"><i class="yufont icon-24gl-folderOpen"></i>分类</h3><div class="archive_lists"><ul class="category-list"><li><a href="/categories/Python/">Python (3)</a></li></ul></div></div><div class="sidebar_tags sidebar_container"><h3 class="sidebar_title"><i class="yufont icon-tag"></i>标签</h3><a href="/tags/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/" style="font-size: 16px;">杂七杂八</a></div><div class="catalogue sidebar_container"><h3 class="sidebar_title"><i class="yufont icon-feiji"></i>目录</h3></div></div><script>// 处理滚动事件的函数
+function handleScroll() {
+    var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+    var catalogueElement = document.querySelector('.catalogue'); // 使用类名查询元素
+    
+    if (catalogueElement.dataTop < scrollTop) {
+        // 当页面滚动超过目录初始位置时，更新目录位置
+        catalogueElement.style.position = 'fixed';
+        catalogueElement.style.top = '100px'; // 固定到顶部
+        catalogueElement.style.left = catalogueElement.dataLeft; // 保持原来的水平位置
+    } else {
+        // 恢复目录到原始位置
+        catalogueElement.style.position = 'static';
+    }
+}
+
+// 计算元素的初始位置并存储
+function setInitialPosition(element) {
+    var offsetTop = element.offsetTop;
+    var offsetLeft = element.offsetLeft;
+
+    // 计算元素相对于文档的位置
+    var currentElement = element; // 保存原始元素引用
+    while ((currentElement = currentElement.offsetParent)) {
+        offsetTop += currentElement.offsetTop;
+        offsetLeft += currentElement.offsetLeft;
+    }
+    // 将计算好的位置存储在元素的自定义属性中
+    element.dataTop = offsetTop;
+    element.dataLeft = offsetLeft;
+}
+
+// 页面加载完成后执行
+window.onload = function() {
+    var catalogueElement = document.querySelector('.catalogue'); // 使用类名查询元素
+    setInitialPosition(catalogueElement); // 设置目录元素的初始位置
+    window.onscroll = handleScroll; // 绑定滚动事件
+};</script></div><footer class="footer"> <div class="footer_bottom"><div class="footer_box"><div class="copy"><span>主题</span><a target="_blank" rel="noopener" href="https://hexo.io/zh-cn">Hexo</a><span>模板</span><a href="/">Wantoper</a></div><div class="copy"><span>© 2022<a href="/">Wantoper</a>暂无备案号</span></div></div></div></footer><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"> </script><script src="/assets/lib/prettify/prettify.js"> </script><script src="/assets/lib/fancybox/fancybox.js"> </script><script src="/assets/js/app.js"> </script></div></body></html>
