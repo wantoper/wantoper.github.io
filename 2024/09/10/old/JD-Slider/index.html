@@ -1,0 +1,715 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.jpg">
+  <link rel="icon" href="/img/avatar.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Wantoper">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="某东的login滑块，当作一次练习DEMO吧~">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记一次某东登录滑块 识别+轨迹">
+<meta property="og:url" content="https://wantoper.github.io/2024/09/10/old/JD-Slider/index.html">
+<meta property="og:site_name" content="Wantoper&#39;s Blog">
+<meta property="og:description" content="某东的login滑块，当作一次练习DEMO吧~">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wantoper.github.io/images/JD-Slider/image-20240910104300386.png">
+<meta property="og:image" content="https://wantoper.github.io/images/JD-Slider/image-20240910104947224.png">
+<meta property="og:image" content="https://wantoper.github.io/images/JD-Slider/image-20240910105023919.png">
+<meta property="og:image" content="https://wantoper.github.io/images/JD-Slider/image-20240910105511812.png">
+<meta property="og:image" content="https://wantoper.github.io/images/JD-Slider/image-20240910110825685.png">
+<meta property="og:image" content="https://wantoper.github.io/images/JD-Slider/image-20240910111256194.png">
+<meta property="og:image" content="https://wantoper.github.io/images/JD-Slider/image-20240910111622712.png">
+<meta property="og:image" content="https://wantoper.github.io/images/JD-Slider/image-20240910111855842.png">
+<meta property="og:image" content="https://wantoper.github.io/images/JD-Slider/image-20240910112240192.png">
+<meta property="og:image" content="https://wantoper.github.io/images/JD-Slider/image-20240910113521210.png">
+<meta property="og:image" content="https://wantoper.github.io/images/JD-Slider/image-20240911004323138.png">
+<meta property="og:image" content="https://wantoper.github.io/images/JD-Slider/image-20240911083615617.png">
+<meta property="article:published_time" content="2024-09-10T02:38:07.000Z">
+<meta property="article:modified_time" content="2026-07-18T16:39:28.913Z">
+<meta property="article:author" content="Wantoper">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wantoper.github.io/images/JD-Slider/image-20240910104300386.png">
+  
+  
+  
+  <title>记一次某东登录滑块 识别+轨迹 - Wantoper&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wantoper.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wantoper&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="记一次某东登录滑块 识别+轨迹"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-09-10 10:38" pubdate>
+          2024年9月10日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          19 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">记一次某东登录滑块 识别+轨迹</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><strong>前段时间闲来无事想找个带轨迹的滑块练练手，正好找到一个算是入门级的小demo了，近期有空整理了技术点更新上来记录一下~~</strong></p>
+<p>这个滑块主要难点就是轨迹，只要轨迹过了剩下的都很轻松，所以作为滑块类入门的demo最合适了~ 把这个滑块过了再去对抗更高级些的就有思路了。</p>
+<p>入口就不放了 从官网进入手动登录就会弹</p>
+<p><img src="/../images/JD-Slider/image-20240910104300386.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="接口分析"><a href="#接口分析" class="headerlink" title="接口分析"></a>接口分析</h1><p>点击一下刷新验证码可以看到这个包</p>
+<p><img src="/../images/JD-Slider/image-20240910104947224.png" srcset="/img/loading.gif" lazyload></p>
+<p>其中bg为后面的背景图，patch为滑块的小拼图。后续可以使用模板匹配来进行识别。</p>
+<p><img src="/../images/JD-Slider/image-20240910105023919.png" srcset="/img/loading.gif" lazyload></p>
+<p>验证接口</p>
+<p>手动滑一次可以看到该包<br><img src="/../images/JD-Slider/image-20240910105511812.png" srcset="/img/loading.gif" lazyload></p>
+<p>c就是前面接口中返回的challenge的值，d为轨迹的密文，下面进行逆向分析。w的值就较为重要了，应该是bg图片在页面上的大小，一开始我没注意到这个值，导致折磨了我很久，后续的轨迹以及识别位置对了也会返回失败，后面才反应出来去分析这个值。</p>
+<ul>
+<li><strong>返回值的说明先写在前头</strong></li>
+</ul>
+<ol>
+<li><p>返回值0为验证失败<br><code>jsonp_xxxxx(&#123;&quot;success&quot;:&quot;0&quot;,&quot;message&quot;:&quot;fail&quot;,&quot;nextVerify&quot;:&quot;SLIDE_VERIFY&quot;&#125;)</code></p>
+</li>
+<li><p>返回值1为识别滑块的距离正确  validate有返回值说明验证通过<br><code>jsonp_xxxxx(&#123;&quot;success&quot;:&quot;1&quot;,&quot;message&quot;:&quot;success&quot;,&quot;validate&quot;:&quot;xxxxxxx&quot;,&quot;nextVerify&quot;:&quot;NULL_VERIFY&quot;&#125;)</code></p>
+</li>
+<li><p>返回这个即为 轨迹校验失败<br><code>jsonp_xxxxx(&#123;&quot;u&quot;:&quot;2&quot;,&quot;success&quot;:&quot;0&quot;,&quot;message&quot;:&quot;refuse&quot;,&quot;nextVerify&quot;:&quot;SLIDE_VERIFY&quot;&#125;)</code></p>
+</li>
+</ol>
+<h1 id="轨迹的加密"><a href="#轨迹的加密" class="headerlink" title="轨迹的加密"></a>轨迹的加密</h1><p>首先定位下断点，方法有很多种，我这里通过松开鼠标事件来定位<br><img src="/../images/JD-Slider/image-20240910110825685.png" srcset="/img/loading.gif" lazyload></p>
+<p>然后滑动滑块，随便找个位置松开就会断住<br><img src="/../images/JD-Slider/image-20240910111256194.png" srcset="/img/loading.gif" lazyload><br>断住后发现没有混淆，通过代码可以进行猜测分析。</p>
+<p><code>a[&#39;mousePos&#39;] </code>很明显就是轨迹的数组了 在第0和第1组的x有一个偏差，这里大概是22-25左右。</p>
+<p>后续跟入submit函数看他是怎么对该数组进行加密的<br><img src="/../images/JD-Slider/image-20240910111622712.png" srcset="/img/loading.gif" lazyload></p>
+<p>进入submit函数后通过控制台输出来慢慢分析，发现d参数就在下面</p>
+<p>通过<code>a[&#39;getCoordinate&#39;](b)</code>来进行生成密文<br><img src="/../images/JD-Slider/image-20240910111855842.png" srcset="/img/loading.gif" lazyload></p>
+<p>再进入<code>a[&#39;getCoordinate&#39;]()</code>函数<br><img src="/../images/JD-Slider/image-20240910112240192.png" srcset="/img/loading.gif" lazyload></p>
+<p>非常简单的代码，扣下来就行，后面缺啥补啥，大概补2-3个函数即可。<br><img src="/../images/JD-Slider/image-20240910113521210.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="滑块距离的识别"><a href="#滑块距离的识别" class="headerlink" title="滑块距离的识别"></a>滑块距离的识别</h1><p>我想到的方案大致有两种一种是使用模型来识别，还有一种是使用Opencv来进行模板匹配识别。</p>
+<p>我这里为了方便省事采用第二种，正确率大概为96%左右 已经很够用了！ 给出参考代码如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> base64<br><span class="hljs-keyword">import</span> cv2<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">_tran_canny</span>(<span class="hljs-params">image</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;消除噪声&quot;&quot;&quot;</span><br>    image = cv2.GaussianBlur(image, (<span class="hljs-number">3</span>, <span class="hljs-number">3</span>), <span class="hljs-number">0</span>)<br>    <span class="hljs-keyword">return</span> cv2.Canny(image, <span class="hljs-number">50</span>, <span class="hljs-number">150</span>)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">draw_slider</span>(<span class="hljs-params">image, template, top_left, max_loc</span>):<br>    w, h = image.shape[<span class="hljs-number">1</span>], image.shape[<span class="hljs-number">0</span>]<br>    cv2.line(template, (top_left, <span class="hljs-number">0</span>), (top_left, <span class="hljs-number">94</span>), (<span class="hljs-number">0</span>, <span class="hljs-number">255</span>, <span class="hljs-number">0</span>), <span class="hljs-number">1</span>)<br>    bottom_right = (max_loc[<span class="hljs-number">0</span>] + w, max_loc[<span class="hljs-number">1</span>] + h)<br>    cv2.rectangle(template, max_loc, bottom_right, (<span class="hljs-number">0</span>, <span class="hljs-number">255</span>, <span class="hljs-number">0</span>), <span class="hljs-number">1</span>)<br>    cv2.imshow(<span class="hljs-string">&#x27;Detected&#x27;</span>, template)<br>    cv2.waitKey(<span class="hljs-number">0</span>)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">detect_displacement</span>(<span class="hljs-params">img_slider_path, image_background_path</span>):<br>    x = base64.b64decode(img_slider_path)<br>    img_array = np.frombuffer(x, np.uint8)<br>    image = cv2.imdecode(img_array, cv2.COLOR_RGB2BGR)<br>    image = cv2.resize(image, (<span class="hljs-number">34</span>, <span class="hljs-number">34</span>))<br><br>    y = base64.b64decode(image_background_path)<br>    img_array2 = np.frombuffer(y, np.uint8)<br>    template = cv2.imdecode(img_array2, cv2.COLOR_RGB2BGR)<br>    <span class="hljs-comment">#这里的242即为前面的w值 在F12源代码中取即可</span><br>    template = cv2.resize(template, (<span class="hljs-number">242</span>, <span class="hljs-number">94</span>))<br>    <span class="hljs-comment">#进行模板匹配</span><br>    res = cv2.matchTemplate(_tran_canny(image), _tran_canny(template), cv2.TM_CCOEFF_NORMED)<br>    min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)<br>    <span class="hljs-comment">#计算出来需要加上一点偏移 就是前面分析的轨迹数组中的第0项与第1项的插值</span><br>    top_left = <span class="hljs-built_in">round</span>(max_loc[<span class="hljs-number">0</span>])+<span class="hljs-number">11</span><br>    <span class="hljs-built_in">print</span>(top_left,max_loc)<br><br>    draw_slider(image, template, top_left, max_loc)<br>    <span class="hljs-keyword">return</span> top_left<br></code></pre></td></tr></table></figure>
+
+<p>这里需要注意的是对template进行resize为242 对应上前面的w值，而后续的top_left计算出后需要加上一点偏移，偏移量就是前面分析的轨迹数组中的第0项与第1项的差值，我这里取的为11，一定要与轨迹数组中的对应。<br><img src="/../images/JD-Slider/image-20240911004323138.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="滑动轨迹"><a href="#滑动轨迹" class="headerlink" title="滑动轨迹"></a>滑动轨迹</h1><p>这就到了整个流程中最难的一步了，轨迹校验上了模型，我尝试了几种简单的生成都过不了，<code>贝塞尔曲线</code> <code>随机生成模拟</code> <code>基于前两种后加柏林噪声</code>。</p>
+<p>本来想研究出一套能过的算法，久经折磨之后还是放弃了，使用手动采集轨迹后面再进行裁剪合成。这样通过率大概只有70%-80%左右 也勉强算够用了。</p>
+<p>生成轨迹的参考代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> random<br><span class="hljs-keyword">import</span> time<br><br>track=[[<span class="hljs-number">1177</span>,<span class="hljs-number">339</span>,<span class="hljs-number">1723343514943</span>],[<span class="hljs-number">1188</span>,<span class="hljs-number">370</span>,<span class="hljs-number">1723343514943</span>],[<span class="hljs-number">1189</span>,<span class="hljs-number">370</span>,<span class="hljs-number">1723343515185</span>],[<span class="hljs-number">1191</span>,<span class="hljs-number">371</span>,<span class="hljs-number">1723343515192</span>],[<span class="hljs-number">1192</span>,<span class="hljs-number">371</span>,<span class="hljs-number">1723343515200</span>],[<span class="hljs-number">1194</span>,<span class="hljs-number">371</span>,<span class="hljs-number">1723343515208</span>],[<span class="hljs-number">1195</span>,<span class="hljs-number">372</span>,<span class="hljs-number">1723343515225</span>],[<span class="hljs-number">1196</span>,<span class="hljs-number">372</span>,<span class="hljs-number">1723343515233</span>],[<span class="hljs-number">1197</span>,<span class="hljs-number">372</span>,<span class="hljs-number">1723343515248</span>],[<span class="hljs-number">1199</span>,<span class="hljs-number">372</span>,<span class="hljs-number">1723343515264</span>],[<span class="hljs-number">1200</span>,<span class="hljs-number">373</span>,<span class="hljs-number">1723343515280</span>],[<span class="hljs-number">1201</span>,<span class="hljs-number">373</span>,<span class="hljs-number">1723343515288</span>],[<span class="hljs-number">1202</span>,<span class="hljs-number">373</span>,<span class="hljs-number">1723343515304</span>],[<span class="hljs-number">1203</span>,<span class="hljs-number">373</span>,<span class="hljs-number">1723343515385</span>],[<span class="hljs-number">1204</span>,<span class="hljs-number">373</span>,<span class="hljs-number">1723343515401</span>],[<span class="hljs-number">1205</span>,<span class="hljs-number">373</span>,<span class="hljs-number">1723343515417</span>],[<span class="hljs-number">1205</span>,<span class="hljs-number">374</span>,<span class="hljs-number">1723343515425</span>],[<span class="hljs-number">1206</span>,<span class="hljs-number">374</span>,<span class="hljs-number">1723343515432</span>],[<span class="hljs-number">1207</span>,<span class="hljs-number">374</span>,<span class="hljs-number">1723343515440</span>],[<span class="hljs-number">1208</span>,<span class="hljs-number">374</span>,<span class="hljs-number">1723343515448</span>],[<span class="hljs-number">1209</span>,<span class="hljs-number">374</span>,<span class="hljs-number">1723343515456</span>],[<span class="hljs-number">1210</span>,<span class="hljs-number">374</span>,<span class="hljs-number">1723343515464</span>],[<span class="hljs-number">1211</span>,<span class="hljs-number">374</span>,<span class="hljs-number">1723343515472</span>],[<span class="hljs-number">1212</span>,<span class="hljs-number">374</span>,<span class="hljs-number">1723343515480</span>],[<span class="hljs-number">1213</span>,<span class="hljs-number">374</span>,<span class="hljs-number">1723343515488</span>],[<span class="hljs-number">1214</span>,<span class="hljs-number">374</span>,<span class="hljs-number">1723343515496</span>],[<span class="hljs-number">1215</span>,<span class="hljs-number">374</span>,<span class="hljs-number">1723343515504</span>],[<span class="hljs-number">1216</span>,<span class="hljs-number">374</span>,<span class="hljs-number">1723343515520</span>],[<span class="hljs-number">1217</span>,<span class="hljs-number">374</span>,<span class="hljs-number">1723343515530</span>],[<span class="hljs-number">1218</span>,<span class="hljs-number">374</span>,<span class="hljs-number">1723343515553</span>],[<span class="hljs-number">1219</span>,<span class="hljs-number">374</span>,<span class="hljs-number">1723343515577</span>],[<span class="hljs-number">1220</span>,<span class="hljs-number">374</span>,<span class="hljs-number">1723343515593</span>],[<span class="hljs-number">1221</span>,<span class="hljs-number">374</span>,<span class="hljs-number">1723343515609</span>],[<span class="hljs-number">1222</span>,<span class="hljs-number">374</span>,<span class="hljs-number">1723343515641</span>],[<span class="hljs-number">1223</span>,<span class="hljs-number">374</span>,<span class="hljs-number">1723343515665</span>],[<span class="hljs-number">1224</span>,<span class="hljs-number">374</span>,<span class="hljs-number">1723343515674</span>],[<span class="hljs-number">1225</span>,<span class="hljs-number">374</span>,<span class="hljs-number">1723343515680</span>],[<span class="hljs-number">1226</span>,<span class="hljs-number">374</span>,<span class="hljs-number">1723343515689</span>],[<span class="hljs-number">1227</span>,<span class="hljs-number">374</span>,<span class="hljs-number">1723343515696</span>],[<span class="hljs-number">1229</span>,<span class="hljs-number">374</span>,<span class="hljs-number">1723343515704</span>],[<span class="hljs-number">1230</span>,<span class="hljs-number">375</span>,<span class="hljs-number">1723343515712</span>],[<span class="hljs-number">1232</span>,<span class="hljs-number">375</span>,<span class="hljs-number">1723343515729</span>],[<span class="hljs-number">1234</span>,<span class="hljs-number">375</span>,<span class="hljs-number">1723343515737</span>],[<span class="hljs-number">1235</span>,<span class="hljs-number">376</span>,<span class="hljs-number">1723343515744</span>],[<span class="hljs-number">1237</span>,<span class="hljs-number">376</span>,<span class="hljs-number">1723343515752</span>],[<span class="hljs-number">1239</span>,<span class="hljs-number">376</span>,<span class="hljs-number">1723343515760</span>],[<span class="hljs-number">1241</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343515768</span>],[<span class="hljs-number">1242</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343515776</span>],[<span class="hljs-number">1244</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343515784</span>],[<span class="hljs-number">1245</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343515793</span>],[<span class="hljs-number">1246</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343515800</span>],[<span class="hljs-number">1247</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343515809</span>],[<span class="hljs-number">1248</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343515816</span>],[<span class="hljs-number">1249</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343515824</span>],[<span class="hljs-number">1250</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343515832</span>],[<span class="hljs-number">1251</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343515840</span>],[<span class="hljs-number">1252</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343515848</span>],[<span class="hljs-number">1253</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343515857</span>],[<span class="hljs-number">1255</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343515864</span>],[<span class="hljs-number">1256</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343515872</span>],[<span class="hljs-number">1257</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343515880</span>],[<span class="hljs-number">1258</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343515888</span>],[<span class="hljs-number">1259</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343515896</span>],[<span class="hljs-number">1261</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343515905</span>],[<span class="hljs-number">1263</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343515912</span>],[<span class="hljs-number">1264</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343515920</span>],[<span class="hljs-number">1266</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343515928</span>],[<span class="hljs-number">1268</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343515936</span>],[<span class="hljs-number">1270</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343515944</span>],[<span class="hljs-number">1272</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343515952</span>],[<span class="hljs-number">1275</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343515960</span>],[<span class="hljs-number">1276</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343515968</span>],[<span class="hljs-number">1277</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343515976</span>],[<span class="hljs-number">1279</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343515984</span>],[<span class="hljs-number">1280</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516000</span>],[<span class="hljs-number">1281</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516009</span>],[<span class="hljs-number">1282</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516025</span>],[<span class="hljs-number">1283</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516033</span>],[<span class="hljs-number">1285</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516047</span>],[<span class="hljs-number">1287</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516048</span>],[<span class="hljs-number">1288</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516056</span>],[<span class="hljs-number">1290</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516064</span>],[<span class="hljs-number">1291</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516072</span>],[<span class="hljs-number">1292</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516080</span>],[<span class="hljs-number">1294</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516088</span>],[<span class="hljs-number">1295</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516096</span>],[<span class="hljs-number">1296</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516105</span>],[<span class="hljs-number">1298</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516112</span>],[<span class="hljs-number">1299</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516121</span>],[<span class="hljs-number">1300</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516128</span>],[<span class="hljs-number">1302</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516136</span>],[<span class="hljs-number">1303</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516144</span>],[<span class="hljs-number">1305</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516152</span>],[<span class="hljs-number">1307</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516160</span>],[<span class="hljs-number">1309</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516168</span>],[<span class="hljs-number">1310</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516176</span>],[<span class="hljs-number">1312</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516184</span>],[<span class="hljs-number">1315</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516192</span>],[<span class="hljs-number">1316</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516200</span>],[<span class="hljs-number">1318</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516211</span>],[<span class="hljs-number">1320</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516216</span>],[<span class="hljs-number">1322</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516225</span>],[<span class="hljs-number">1323</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516232</span>],[<span class="hljs-number">1325</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516241</span>],[<span class="hljs-number">1327</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516248</span>],[<span class="hljs-number">1329</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516256</span>],[<span class="hljs-number">1332</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516264</span>],[<span class="hljs-number">1334</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516273</span>],[<span class="hljs-number">1336</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516281</span>],[<span class="hljs-number">1339</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516289</span>],[<span class="hljs-number">1341</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516296</span>],[<span class="hljs-number">1343</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516305</span>],[<span class="hljs-number">1345</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516312</span>],[<span class="hljs-number">1346</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516320</span>],[<span class="hljs-number">1348</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516328</span>],[<span class="hljs-number">1349</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516337</span>],[<span class="hljs-number">1350</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516344</span>],[<span class="hljs-number">1351</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516353</span>],[<span class="hljs-number">1353</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516360</span>],[<span class="hljs-number">1354</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516368</span>],[<span class="hljs-number">1355</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516376</span>],[<span class="hljs-number">1356</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516388</span>],[<span class="hljs-number">1357</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516392</span>],[<span class="hljs-number">1358</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516401</span>],[<span class="hljs-number">1360</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516409</span>],[<span class="hljs-number">1361</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516416</span>],[<span class="hljs-number">1363</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516424</span>],[<span class="hljs-number">1364</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516433</span>],[<span class="hljs-number">1366</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516441</span>],[<span class="hljs-number">1368</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516449</span>],[<span class="hljs-number">1369</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516456</span>],[<span class="hljs-number">1371</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516465</span>],[<span class="hljs-number">1373</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516472</span>],[<span class="hljs-number">1375</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516480</span>],[<span class="hljs-number">1376</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516488</span>],[<span class="hljs-number">1378</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516497</span>],[<span class="hljs-number">1379</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516504</span>],[<span class="hljs-number">1380</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516530</span>],[<span class="hljs-number">1381</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516567</span>],[<span class="hljs-number">1382</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516568</span>],[<span class="hljs-number">1384</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516576</span>],[<span class="hljs-number">1385</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516584</span>],[<span class="hljs-number">1386</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516592</span>],[<span class="hljs-number">1387</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516600</span>],[<span class="hljs-number">1388</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516608</span>],[<span class="hljs-number">1389</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516616</span>],[<span class="hljs-number">1390</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516625</span>],[<span class="hljs-number">1391</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516632</span>],[<span class="hljs-number">1392</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516641</span>],[<span class="hljs-number">1393</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516648</span>],[<span class="hljs-number">1394</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516664</span>],[<span class="hljs-number">1395</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516672</span>],[<span class="hljs-number">1396</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343516689</span>],[<span class="hljs-number">1397</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343517035</span>],[<span class="hljs-number">1398</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343517040</span>],[<span class="hljs-number">1399</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343517048</span>],[<span class="hljs-number">1400</span>,<span class="hljs-number">377</span>,<span class="hljs-number">1723343517068</span>]]<br>roch=[[<span class="hljs-number">0</span>, <span class="hljs-number">414</span>, <span class="hljs-number">1723343562711</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">415</span>, <span class="hljs-number">1723343562719</span>], [<span class="hljs-number">1</span>, <span class="hljs-number">415</span>, <span class="hljs-number">1723343562735</span>], [<span class="hljs-number">2</span>, <span class="hljs-number">415</span>, <span class="hljs-number">1723343562751</span>], [<span class="hljs-number">3</span>, <span class="hljs-number">415</span>, <span class="hljs-number">1723343562767</span>], [<span class="hljs-number">4</span>, <span class="hljs-number">415</span>, <span class="hljs-number">1723343562783</span>], [<span class="hljs-number">5</span>, <span class="hljs-number">415</span>, <span class="hljs-number">1723343562799</span>], [<span class="hljs-number">6</span>, <span class="hljs-number">415</span>, <span class="hljs-number">1723343562808</span>], [<span class="hljs-number">7</span>, <span class="hljs-number">415</span>, <span class="hljs-number">1723343562818</span>], [<span class="hljs-number">8</span>, <span class="hljs-number">415</span>, <span class="hljs-number">1723343562831</span>], [<span class="hljs-number">9</span>, <span class="hljs-number">415</span>, <span class="hljs-number">1723343562847</span>], [<span class="hljs-number">10</span>, <span class="hljs-number">415</span>, <span class="hljs-number">1723343562855</span>], [<span class="hljs-number">11</span>, <span class="hljs-number">414</span>, <span class="hljs-number">1723343562863</span>], [<span class="hljs-number">12</span>, <span class="hljs-number">414</span>, <span class="hljs-number">1723343562871</span>], [<span class="hljs-number">13</span>, <span class="hljs-number">414</span>, <span class="hljs-number">1723343562887</span>], [<span class="hljs-number">13</span>, <span class="hljs-number">413</span>, <span class="hljs-number">1723343562894</span>], [<span class="hljs-number">14</span>, <span class="hljs-number">413</span>, <span class="hljs-number">1723343562903</span>], [<span class="hljs-number">15</span>, <span class="hljs-number">413</span>, <span class="hljs-number">1723343562975</span>], [<span class="hljs-number">14</span>, <span class="hljs-number">413</span>, <span class="hljs-number">1723343563159</span>], [<span class="hljs-number">13</span>, <span class="hljs-number">413</span>, <span class="hljs-number">1723343563175</span>], [<span class="hljs-number">12</span>, <span class="hljs-number">413</span>, <span class="hljs-number">1723343563191</span>], [<span class="hljs-number">11</span>, <span class="hljs-number">413</span>, <span class="hljs-number">1723343563223</span>], [<span class="hljs-number">10</span>, <span class="hljs-number">413</span>, <span class="hljs-number">1723343563255</span>], [<span class="hljs-number">9</span>, <span class="hljs-number">413</span>, <span class="hljs-number">1723343563263</span>], [<span class="hljs-number">8</span>, <span class="hljs-number">413</span>, <span class="hljs-number">1723343563271</span>], [<span class="hljs-number">7</span>, <span class="hljs-number">413</span>, <span class="hljs-number">1723343563278</span>], [<span class="hljs-number">6</span>, <span class="hljs-number">413</span>, <span class="hljs-number">1723343563286</span>], [<span class="hljs-number">5</span>, <span class="hljs-number">413</span>, <span class="hljs-number">1723343563295</span>], [<span class="hljs-number">4</span>, <span class="hljs-number">413</span>, <span class="hljs-number">1723343563302</span>], [<span class="hljs-number">3</span>, <span class="hljs-number">413</span>, <span class="hljs-number">1723343563311</span>], [<span class="hljs-number">2</span>, <span class="hljs-number">413</span>, <span class="hljs-number">1723343563375</span>], [<span class="hljs-number">1</span>, <span class="hljs-number">413</span>, <span class="hljs-number">1723343563490</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">413</span>, <span class="hljs-number">1723343563527</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">413</span>, <span class="hljs-number">1723343564062</span>]]<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_track</span>(<span class="hljs-params">distance</span>):<br>    sliders=[]<br>    timenow=<span class="hljs-built_in">str</span>(<span class="hljs-built_in">int</span>(time.time()/<span class="hljs-number">10</span>))<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> track:<br>        <span class="hljs-keyword">if</span> i[<span class="hljs-number">0</span>] &lt;= distance+track[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>]:<br>            sliders.append([i[<span class="hljs-number">0</span>],i[<span class="hljs-number">1</span>],<span class="hljs-built_in">int</span>(timenow+<span class="hljs-built_in">str</span>(i[<span class="hljs-number">2</span>])[-<span class="hljs-number">4</span>:])])<br>        <span class="hljs-keyword">else</span>:<br>            sliders.append([distance + track[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>], i[<span class="hljs-number">1</span>], <span class="hljs-built_in">int</span>(timenow + <span class="hljs-built_in">str</span>(i[<span class="hljs-number">2</span>])[-<span class="hljs-number">4</span>:]) + <span class="hljs-number">700</span> + <span class="hljs-built_in">int</span>(random.random() * <span class="hljs-number">1000</span>)])<br>            <span class="hljs-keyword">break</span><br><br>    lastx=sliders[-<span class="hljs-number">1</span>][<span class="hljs-number">0</span>]<br>    lasty=sliders[-<span class="hljs-number">1</span>][<span class="hljs-number">1</span>]<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(roch)-<span class="hljs-number">1</span>):<br>        <span class="hljs-keyword">if</span> i == <span class="hljs-number">0</span> <span class="hljs-keyword">and</span> roch[i][<span class="hljs-number">0</span>] == <span class="hljs-number">0</span>:<br>            times=sliders[-<span class="hljs-number">1</span>][<span class="hljs-number">2</span>]<br>        <span class="hljs-keyword">else</span>:<br>            times=sliders[-<span class="hljs-number">1</span>][<span class="hljs-number">2</span>]+(roch[i+<span class="hljs-number">1</span>][<span class="hljs-number">2</span>]-roch[i][<span class="hljs-number">2</span>])<br>        sliders.append([lastx+roch[i][<span class="hljs-number">0</span>],lasty,times])<br>    sliders.append([lastx+roch[-<span class="hljs-number">1</span>][<span class="hljs-number">0</span>],lasty,sliders[-<span class="hljs-number">1</span>][<span class="hljs-number">2</span>]+<span class="hljs-number">1000</span>])<br>    <span class="hljs-keyword">return</span> sliders<br></code></pre></td></tr></table></figure>
+
+<p><code>track</code>数组为从滑块起点到滑块末尾的轨迹  <code>roch</code>为晃动的轨迹</p>
+<p>roch的录制：先打开滑块，准备手动滑一次，先从滑块开始然后滑正确的滑块缺口上稳住鼠标，然后<code>模拟晃动往左或者往右进行滑动，然后再滑回滑块的位置</code> 后面这一段就是晃动的轨迹了。把后面这一段的x减去滑块缺口的位置就可以得出0 1 2 3 4 5 ··· 5 4 3 2 1 0相关的轨迹点</p>
+<p>得到两个数组后进行裁剪的合成，首先生成时间戳，利用track中的时间戳后4位+当前时间戳的前6位</p>
+<p>组成新的时间戳，先从trach数组中获取滑块起点到滑块位置的轨迹点，例如当前滑块位置为103，则获取起点到103的轨迹点，然后再最后面添加一个精准的轨迹点 使用<code>distance + track[0][0]</code>的方法来添加最后一个轨迹点。</p>
+<p>得到上面的正常轨迹之后，通过率也能有60%左右，还想通过率再高一点就在正常轨迹的后面拼接晃动的轨迹点。</p>
+<p>在sliders后的第一位添加时 时间戳为正常轨迹的最后一个点的时间戳作为起始点，后续的每一个晃动轨迹点的时间戳都为<code>前一项的时间戳+晃动数组中后一位的时间戳-当前晃动数组中的时间戳</code> <code>times=sliders[-1][2]+(roch[i+1][2]-roch[i][2])</code>。</p>
+<p>全的代码就不放上了，还有一个点需要注意的<code>获取验证码</code>和<code>提交</code>之间不能太快，不然就都是失败，延迟大概5秒左右再提交。</p>
+<p>最后附上被折磨了几天后的结果~<br><img src="/../images/JD-Slider/image-20240911083615617.png" srcset="/img/loading.gif" lazyload></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/" class="category-chain-item">杂七杂八</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/%E9%80%86%E5%90%91/" class="category-chain-item">逆向</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Python/" class="print-no-link">#Python</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>记一次某东登录滑块 识别+轨迹</div>
+      <div>https://wantoper.github.io/2024/09/10/old/JD-Slider/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Wantoper</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年9月10日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/09/12/old/label-studio-sam/" title="部署Playground自动标注工具的部署和使用">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">部署Playground自动标注工具的部署和使用</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/09/06/old/python%E9%80%9A%E8%BF%87Airscript-API%E6%93%8D%E4%BD%9CWps-%E4%BA%91%E8%A1%A8%E6%A0%BC/" title="AirscriptAPI控制WPS云表格">
+                        <span class="hidden-mobile">AirscriptAPI控制WPS云表格</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

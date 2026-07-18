@@ -1,0 +1,734 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.jpg">
+  <link rel="icon" href="/img/avatar.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Wantoper">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="记录一下学习HTTP从1.0到3.0的演进过程，包括各版本的特点、改进及关键技术，如长连接、多路复用、队头阻塞等问题的解决。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP协议版本的特点（HTTP&#x2F;1.X、HTTP&#x2F;2.0、HTTP&#x2F;3.0）">
+<meta property="og:url" content="https://wantoper.github.io/2025/08/13/2025/08-13-http-version/index.html">
+<meta property="og:site_name" content="Wantoper&#39;s Blog">
+<meta property="og:description" content="记录一下学习HTTP从1.0到3.0的演进过程，包括各版本的特点、改进及关键技术，如长连接、多路复用、队头阻塞等问题的解决。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wantoper.github.io/images/08-13-http-version/image-3.png">
+<meta property="og:image" content="https://wantoper.github.io/images/08-13-http-version/image-4.png">
+<meta property="og:image" content="https://wantoper.github.io/images/08-13-http-version/image-5.png">
+<meta property="og:image" content="https://wantoper.github.io/images/08-13-http-version/image.png">
+<meta property="og:image" content="https://wantoper.github.io/images/08-13-http-version/image-2.png">
+<meta property="article:published_time" content="2025-08-12T16:21:13.000Z">
+<meta property="article:modified_time" content="2026-07-18T16:39:28.912Z">
+<meta property="article:author" content="Wantoper">
+<meta property="article:tag" content="传输协议">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wantoper.github.io/images/08-13-http-version/image-3.png">
+  
+  
+  
+  <title>HTTP协议版本的特点（HTTP/1.X、HTTP/2.0、HTTP/3.0） - Wantoper&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wantoper.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wantoper&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="HTTP协议版本的特点（HTTP/1.X、HTTP/2.0、HTTP/3.0）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-08-13 00:21" pubdate>
+          2025年8月13日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          12 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">HTTP协议版本的特点（HTTP/1.X、HTTP/2.0、HTTP/3.0）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="HTTP协议各版本的区别"><a href="#HTTP协议各版本的区别" class="headerlink" title="HTTP协议各版本的区别"></a>HTTP协议各版本的区别</h1><p><img src="/../../images/08-13-http-version/image-3.png" srcset="/img/loading.gif" lazyload alt="HTTP协议演进"></p>
+<p><img src="/../../images/08-13-http-version/image-4.png" srcset="/img/loading.gif" lazyload alt="HTTP版本传输对比"></p>
+<h2 id="队头阻塞问题"><a href="#队头阻塞问题" class="headerlink" title="队头阻塞问题"></a>队头阻塞问题</h2><ul>
+<li><strong>HTTP队头阻塞</strong>：在HTTP&#x2F;1.x中，每个请求都需要等待之前的请求完成后才能发起，例如<code>[index.html, 1.js]</code>，必须等待<code>index.html</code>完成才能处理<code>1.js</code></li>
+<li><strong>TCP队头阻塞</strong>：因为TCP面向字节流传输，且保证传输可靠性和数据的完整性，只有TCP拿到完整连续的数据时，内核才会将数据从缓冲区交给HTTP应用，而只要前一个字节没有收到，HTTP就无法从内核缓冲区中得到数据，直到其到达</li>
+</ul>
+<h2 id="HTTP-1-x"><a href="#HTTP-1-x" class="headerlink" title="HTTP&#x2F;1.x"></a>HTTP&#x2F;1.x</h2><h3 id="主要特点"><a href="#主要特点" class="headerlink" title="主要特点"></a>主要特点</h3><ul>
+<li><strong>无状态</strong></li>
+<li><strong>明文传输</strong></li>
+</ul>
+<h3 id="HTTP-1-1改进"><a href="#HTTP-1-1改进" class="headerlink" title="HTTP&#x2F;1.1改进"></a>HTTP&#x2F;1.1改进</h3><p>在HTTP&#x2F;1.1中引入了长连接的概念</p>
+<blockquote>
+<p><strong>长连接（Keep-Alive）</strong></p>
+<ol>
+<li>可以减少TCP建立次数，通过TCP复用传输多个HTTP请求</li>
+<li>通过管道（Pipeline，同时发送、接收多次）解决了请求方队头阻塞，但是服务器必须按照接受请求的顺序发送对应的请求响应顺序，所以依旧存在队头阻塞问题。而且很多浏览器并未支持管道。</li>
+</ol>
+</blockquote>
+<p><strong>缺点</strong>：因为无法多路复用，存在HTTP队头阻塞问题</p>
+<h2 id="HTTP-2-0"><a href="#HTTP-2-0" class="headerlink" title="HTTP&#x2F;2.0"></a>HTTP&#x2F;2.0</h2><h3 id="主要特点-1"><a href="#主要特点-1" class="headerlink" title="主要特点"></a>主要特点</h3><ul>
+<li><strong>二进制传输</strong><ul>
+<li>传输分为<strong>头信息帧（Headers Frame）<strong>和</strong>数据帧（Data Frame）</strong></li>
+</ul>
+</li>
+<li><strong>头部压缩（HPACK）</strong><ul>
+<li>如果同时多个请求其头部一样或相似，那么协议会消除重复部分</li>
+<li>http&#x2F;2的HPACK算法使用一份索引表来定义常用的http Header，把常用的 http Header 存放在表里，请求的时候便只需要发送在表里的索引位置即可。<ul>
+<li>例如 :method&#x3D;GET 使用索引值 2 表示，:path&#x3D;&#x2F;index.html 使用索引值 5 表示，如下图：</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="/../../images/08-13-http-version/image-5.png" srcset="/img/loading.gif" lazyload alt="压缩索引表"></p>
+<ul>
+<li><strong>服务端推送（Server Push）</strong><ul>
+<li>服务器可以对一个客户端请求发送多个响应，服务器向客户端推送资源无需客户端明确地请求。并且，服务端推送能把客户端所需要的资源伴随着index.html一起发送到客户端，省去了客户端重复请求的步骤。</li>
+</ul>
+</li>
+</ul>
+<p><img src="/../../images/08-13-http-version/image.png" srcset="/img/loading.gif" lazyload alt="HTTP2协议流程"></p>
+<p>在HTTP&#x2F;2中，传输的每个响应&#x2F;请求的所有包，都称为一个<strong>数据流</strong>（Stream）并且有一个唯一的ID（StreamID）。由于数据包分成每个流的小包进行二进制帧传输，所以可以<strong>并行发送多个帧</strong>，例如：</p>
+<p><code>[index.html, 1.js]</code> 被分为了四个帧和多个流：</p>
+<ul>
+<li><code>index.html</code>: HEADER[stream1], DATA[stream2-1, stream2-2]</li>
+<li><code>1.js</code>: HEADER[stream3], DATA[stream4-1, stream4-2]</li>
+</ul>
+<p>这些流可以并行发送：<code>[stream1, stream2-2, stream2-1, stream3, stream4-1, stream4-2]</code></p>
+<p>当丢失一个stream包时，只会阻塞当前的stream包，这样也就解决了HTTP队头阻塞的问题。</p>
+<p><img src="/../../images/08-13-http-version/image-2.png" srcset="/img/loading.gif" lazyload alt="HTTP2传输过程"></p>
+<p><strong>缺点</strong>：仍然存在TCP队头阻塞问题。例如3个请求（数据流）在1个TCP连接中传输，被拆成了3个TCP报文 <code>[1,2,3]</code>，假如每个报文恰好是一个请求，接收顺序为1,3（包2丢失或是网络延时），那么此时1,3都应该能正常被应用所解析，但是由于TCP需要等待包2的到来后才能交给应用，所以导致了TCP队头阻塞（根本原因：TCP无法感知stream的存在）。</p>
+<h2 id="HTTP-3-0"><a href="#HTTP-3-0" class="headerlink" title="HTTP&#x2F;3.0"></a>HTTP&#x2F;3.0</h2><p>HTTP&#x2F;3.0依赖了<strong>QUIC协议</strong>，解决了HTTP&#x2F;1.0和HTTP&#x2F;2.0中存在的问题。</p>
+<h3 id="QUIC协议特点："><a href="#QUIC协议特点：" class="headerlink" title="QUIC协议特点："></a>QUIC协议特点：</h3><ul>
+<li><strong>首次握手1RTT，复用0RTT</strong></li>
+<li><strong>内置TLS</strong><ul>
+<li>因为传输TLS报文也可能会被拆分成多个小包，可能存在TLS队头阻塞的问题，所以干脆直接整合TLS来对stream的小包进行加密</li>
+</ul>
+</li>
+<li><strong>解决队头阻塞</strong><ul>
+<li>QUIC参考了HTTP&#x2F;2.0的数据流传输形式，将stream下放到了传输层中（让传输层知道当前stream已经完成），这样就可以解决TCP的队头阻塞问题</li>
+</ul>
+</li>
+<li><strong>连接迁移能力</strong><ul>
+<li>通过ConnectionID标识连接，而非依赖TCP四元组，当切换网络环境时，只要保留了ConnectionID可以无感知复用</li>
+</ul>
+</li>
+</ul>
+<h2 id="补充说明"><a href="#补充说明" class="headerlink" title="补充说明"></a>补充说明</h2><ul>
+<li>在现代浏览器和服务器中已经支持建立多个TCP连接同时传输HTTP协议，加快传输速度</li>
+<li>在某种情况下（高丢包率环境），6个连接的 HTTP&#x2F;1.1 仍然比一个连接的 HTTP&#x2F;2 性能更好，这通常是由于 TCP 级别的队头阻塞问题造成的。正是这个事实极大地推动了新的 QUIC 传输协议的开发，以取代 TCP。</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li><strong>HTTP&#x2F;1.1</strong> 会受到应用层队头阻塞的影响。这主要是因为 HTTP&#x2F;1.1 没有识别单个资源块的方法。</li>
+<li><strong>HTTP&#x2F;2</strong> 使用帧来标记这些块并启用多路复用，解决了 HTTP&#x2F;1.1 的问题，但遗憾的是HTTP&#x2F;2 仍然受到底层 TCP 的限制。由于 TCP 将 HTTP&#x2F;2 数据抽象为一个单一的、有序的、但不透明的流，因此如果数据包在网络上丢失或严重延迟，它将遭受队头阻塞。</li>
+<li><strong>HTTP&#x2F;3</strong>（基于QUIC）通过将 HTTP&#x2F;2 的一些概念引入传输层来解决这个问题。这导致跨流的数据不再完全有序，最终形成了一个全新的HTTP版本，它只运行在 QUIC 之上。</li>
+</ul>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/330300133">https://zhuanlan.zhihu.com/p/330300133</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45910068/article/details/126290248">https://blog.csdn.net/weixin_45910068&#x2F;article&#x2F;details&#x2F;126290248</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/a83_NE-ww36FZsy320MQFQ">https://mp.weixin.qq.com/s/a83_NE-ww36FZsy320MQFQ</a></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%BF%9B%E4%BF%AE/" class="category-chain-item">进修</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE/" class="print-no-link">#传输协议</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>HTTP协议版本的特点（HTTP/1.X、HTTP/2.0、HTTP/3.0）</div>
+      <div>https://wantoper.github.io/2025/08/13/2025/08-13-http-version/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Wantoper</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年8月13日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/10/30/2025/10-29-docker/" title="Docker深入理解">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Docker深入理解</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/08/04/2025/08-04-python-advanced/" title="Python的进阶">
+                        <span class="hidden-mobile">Python的进阶</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,740 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.jpg">
+  <link rel="icon" href="/img/avatar.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Wantoper">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="某果的滑块训练过程，采集+标准+训练+封装使用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="某里两种版本的水果滑块训练——Yolov5">
+<meta property="og:url" content="https://wantoper.github.io/2024/09/30/old/Ali_Fruit_Slider_Yolov5/index.html">
+<meta property="og:site_name" content="Wantoper&#39;s Blog">
+<meta property="og:description" content="某果的滑块训练过程，采集+标准+训练+封装使用。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wantoper.github.io/images/Ali_Fruit_Slider_Yolov5/image-20240930144822078.png">
+<meta property="og:image" content="https://wantoper.github.io/images/Ali_Fruit_Slider_Yolov5/image-20240930144157318.png">
+<meta property="og:image" content="https://wantoper.github.io/images/Ali_Fruit_Slider_Yolov5/image-20240930144453729.png">
+<meta property="og:image" content="https://wantoper.github.io/images/Ali_Fruit_Slider_Yolov5/image-20240930145501750.png">
+<meta property="og:image" content="https://wantoper.github.io/images/Ali_Fruit_Slider_Yolov5/image-20240930145913727.png">
+<meta property="og:image" content="https://wantoper.github.io/images/Ali_Fruit_Slider_Yolov5/image-20240930150946480.png">
+<meta property="og:image" content="https://wantoper.github.io/images/Ali_Fruit_Slider_Yolov5/image-20240930152017397.png">
+<meta property="og:image" content="https://wantoper.github.io/images/Ali_Fruit_Slider_Yolov5/image-20240930152027210.png">
+<meta property="og:image" content="https://wantoper.github.io/images/Ali_Fruit_Slider_Yolov5/image-20240930153200868.png">
+<meta property="og:image" content="https://wantoper.github.io/images/Ali_Fruit_Slider_Yolov5/image-20240930153630277.png">
+<meta property="og:image" content="https://wantoper.github.io/images/Ali_Fruit_Slider_Yolov5/image-20240930154040381.png">
+<meta property="og:image" content="https://wantoper.github.io/images/Ali_Fruit_Slider_Yolov5/image-20240930154141597.png">
+<meta property="og:image" content="https://wantoper.github.io/images/Ali_Fruit_Slider_Yolov5/image-20240930163529811.png">
+<meta property="og:image" content="https://wantoper.github.io/images/Ali_Fruit_Slider_Yolov5/image-20240930163657101.png">
+<meta property="og:image" content="https://wantoper.github.io/images/Ali_Fruit_Slider_Yolov5/image-20240912164230577.png">
+<meta property="og:image" content="https://wantoper.github.io/images/Ali_Fruit_Slider_Yolov5/image-20240930164217157.png">
+<meta property="og:image" content="https://wantoper.github.io/images/Ali_Fruit_Slider_Yolov5/image-20240930164259453.png">
+<meta property="og:image" content="https://wantoper.github.io/images/Ali_Fruit_Slider_Yolov5/image-20240930164519668.png">
+<meta property="og:image" content="https://wantoper.github.io/images/Ali_Fruit_Slider_Yolov5/image-20240930164745644.png">
+<meta property="og:image" content="https://wantoper.github.io/images/Ali_Fruit_Slider_Yolov5/image-20240930165313552.png">
+<meta property="article:published_time" content="2024-09-30T06:32:53.000Z">
+<meta property="article:modified_time" content="2026-07-18T16:39:28.913Z">
+<meta property="article:author" content="Wantoper">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wantoper.github.io/images/Ali_Fruit_Slider_Yolov5/image-20240930144822078.png">
+  
+  
+  
+  <title>某里两种版本的水果滑块训练——Yolov5 - Wantoper&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wantoper.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wantoper&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="某里两种版本的水果滑块训练——Yolov5"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-09-30 14:32" pubdate>
+          2024年9月30日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          31 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">某里两种版本的水果滑块训练——Yolov5</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><strong>本章不涉及任何逆向</strong>  仅对训练过程及识别方式进行讨论</p>
+<p>总所周知 某里系有个著名的滑块 227 由于技术且未达到 所以先不搓js层次的，先对识别部分的先来练练手。某大佬说因为早期验证码内都是一些水果 所以就称为<strong>水果滑块</strong>。</p>
+<h1 id="验证码字体处的识别"><a href="#验证码字体处的识别" class="headerlink" title="验证码字体处的识别"></a>验证码字体处的识别</h1><p>目前我所知的有两个版本</p>
+<p>1.0最早期的比较简单在风控后就会出现 一般在登录可以见到 227多滑几次之后就会出现</p>
+<p>1.0的识别相对简单可以直接降噪后用opencv识别 但是这里有点坑 直接用opencv读会很模糊后面会提到<br><img src="/../images/Ali_Fruit_Slider_Yolov5/image-20240930144822078.png" srcset="/img/loading.gif" lazyload></p>
+<p>2.0的目前没见到过 但是有一个接口会直接访问<a target="_blank" rel="noopener" href="https://scportal.taobao.com/quali_show.htm">D</a></p>
+<p>2.0的字体识别位置改为了两张图片反复切换，利用了视觉停留，看清了图片内容，想用截屏的方式是行不通的，两张图片都是带噪点的 单独拎出来是看不清的。<br><img src="/../images/Ali_Fruit_Slider_Yolov5/image-20240930144157318.png" srcset="/img/loading.gif" lazyload></p>
+<p>在接口处可以看到两张图片<br><img src="/../images/Ali_Fruit_Slider_Yolov5/image-20240930144453729.png" srcset="/img/loading.gif" lazyload></p>
+<p>两种方式采用opencv处理后用DDDDOCR进行识别 效果完全够用！</p>
+<h2 id="1-0的文字处理"><a href="#1-0的文字处理" class="headerlink" title="1.0的文字处理"></a>1.0的文字处理</h2><p>把坑说在前头</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">opencv_img</span>(<span class="hljs-params">base64_str</span>):<br>    img_data = base64.b64decode(base64_str.split(<span class="hljs-string">&#x27;,&#x27;</span>)[<span class="hljs-number">1</span>])<br>    nparr = np.frombuffer(img_data, np.uint8)<br>    img=cv2.cvtColor(img, cv2.COLOR_BGRA2BGR)<br><br>    <span class="hljs-keyword">if</span> img.shape[<span class="hljs-number">2</span>] == <span class="hljs-number">4</span>:<br>        b, g, r, a = cv2.split(img)<br>        white_background = np.ones((img.shape[<span class="hljs-number">0</span>], img.shape[<span class="hljs-number">1</span>], <span class="hljs-number">3</span>), dtype=np.uint8) * <span class="hljs-number">255</span><br>        <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>):<br>            white_background[:, :, c] = b * (a / <span class="hljs-number">255.0</span>) + white_background[:, :, c] * (<span class="hljs-number">1</span> - a / <span class="hljs-number">255.0</span>)<br>        cv2.imshow(<span class="hljs-string">&#x27;Image with Transparency&#x27;</span>, white_background)<br>    <span class="hljs-keyword">else</span>:<br>        cv2.imshow(<span class="hljs-string">&#x27;Image&#x27;</span>, img)<br>    cv2.waitKey(<span class="hljs-number">0</span>)<br>    cv2.destroyAllWindows()<br></code></pre></td></tr></table></figure>
+
+<p>一开始我用这种方式去读取base64的背景图 发现效果是这样的<br><img src="/../images/Ali_Fruit_Slider_Yolov5/image-20240930145501750.png" srcset="/img/loading.gif" lazyload></p>
+<p>非常糊，人眼都不太好看清更别说ocr了</p>
+<p>后面琢磨了一天始终没发现是读取图片代码的问题以为是opencv的处理问题，最后挨个试才发现这边需要保留透明通道 改用下面的代码后就行了 很高清<del>无码</del>！</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">img = cv2.imdecode(nparr, cv2.IMREAD_UNCHANGED)<br></code></pre></td></tr></table></figure>
+<p><img src="/../images/Ali_Fruit_Slider_Yolov5/image-20240930145913727.png" srcset="/img/loading.gif" lazyload></p>
+<p>这样再丢给ocr就嘚嘚得了</p>
+<p>最后因为我需要打包成exe使用 为了压缩体积所以选择不使用Opencv 采用了PIL库</p>
+<p>需要用Opencv来识别的可以丢给AI帮你生成一下</p>
+<p>附上PIL的代码</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs scss">def <span class="hljs-built_in">deal_que_new_img</span>(bin_image):<br>	ocr = <span class="hljs-built_in">DdddOcr</span>(show_ad=False)<br>    img = Image.<span class="hljs-built_in">open</span>(<span class="hljs-built_in">BytesIO</span>(bin_image)).<span class="hljs-built_in">convert</span>(<span class="hljs-string">&quot;RGBA&quot;</span>)<br>    background = Image.<span class="hljs-built_in">new</span>(<span class="hljs-string">&quot;RGBA&quot;</span>, img.size, (<span class="hljs-number">255</span>, <span class="hljs-number">255</span>, <span class="hljs-number">255</span>, <span class="hljs-number">255</span>))<br>    img = Image.<span class="hljs-built_in">alpha_composite</span>(background, img)<br>    image = img.<span class="hljs-built_in">crop</span>((<span class="hljs-number">143</span>, <span class="hljs-number">0</span>, img.size[<span class="hljs-number">0</span>], img.size[<span class="hljs-number">1</span>]))<br>    # image.<span class="hljs-built_in">show</span>()<br>    ocr_res = ocr.<span class="hljs-built_in">classification</span>(image).<span class="hljs-built_in">split</span>(<span class="hljs-string">&#x27;后&#x27;</span>)[<span class="hljs-number">0</span>]<br>    logger.<span class="hljs-built_in">info</span>(f<span class="hljs-string">&quot;识别结果：&#123;ocr_res&#125;&quot;</span>)<br>    return ocr_res<br>    <br>titleimg=<span class="hljs-string">&quot;base64&quot;</span><br>que_img = <span class="hljs-built_in">b64decode</span>(titleimg.<span class="hljs-built_in">split</span>(<span class="hljs-string">&#x27;base64,&#x27;</span>)[-<span class="hljs-number">1</span>])<br>queue = <span class="hljs-built_in">deal_que_new_img</span>(que_img)<br> <br></code></pre></td></tr></table></figure>
+<p><img src="/../images/Ali_Fruit_Slider_Yolov5/image-20240930150946480.png" srcset="/img/loading.gif" lazyload></p>
+<p>至此第一步就完成了</p>
+<h2 id="2-0的文字处理"><a href="#2-0的文字处理" class="headerlink" title="2.0的文字处理"></a>2.0的文字处理</h2><p>2.0的较为复杂一些一开始也思考了挺久，都准备上模型了，后面在公众号找到一个大佬的文章看了之后茅<del>厕</del>顿开 醍醐灌顶。<br><img src="/../images/Ali_Fruit_Slider_Yolov5/image-20240930152017397.png" srcset="/img/loading.gif" lazyload><br><img src="/../images/Ali_Fruit_Slider_Yolov5/image-20240930152027210.png" srcset="/img/loading.gif" lazyload><br>既然利用了视觉停留 在页面上图片反复跳转时字体还是蛮清晰的，所以将两张图片合二为一进行像素点遍历，保留两张图都存在的像素点，一张有 一张没有的像素点就去除掉。没有的话设为0白色 都有的话设为255黑色</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#同时遍历两张图片，找到不同的像素点 删除掉</span><br><span class="hljs-keyword">for</span> y <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(original.shape[<span class="hljs-number">0</span>]):<br>    <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(original.shape[<span class="hljs-number">1</span>]):<br>        <span class="hljs-keyword">if</span> np.<span class="hljs-built_in">any</span>(original[y, x]) == <span class="hljs-number">0</span> <span class="hljs-keyword">and</span> np.<span class="hljs-built_in">any</span>(original2[y, x]) == <span class="hljs-number">0</span>:<br>            original[y, x] = <span class="hljs-number">0</span><br>            original2[y, x] = <span class="hljs-number">0</span><br>        <span class="hljs-keyword">else</span>:<br>            original[y, x] = <span class="hljs-number">255</span><br>            original2[y, x] = <span class="hljs-number">255</span><br></code></pre></td></tr></table></figure>
+<p><img src="/../images/Ali_Fruit_Slider_Yolov5/image-20240930153200868.png" srcset="/img/loading.gif" lazyload></p>
+<p>效果还是挺好的 从”后”进行切割一下就行</p>
+<h1 id="滑块图的处理及训练"><a href="#滑块图的处理及训练" class="headerlink" title="滑块图的处理及训练"></a>滑块图的处理及训练</h1><p>图片长这样<br><img src="/../images/Ali_Fruit_Slider_Yolov5/image-20240930153630277.png" srcset="/img/loading.gif" lazyload></p>
+<p>多刷了几次我发现这样有规律 一般需要验证的物体的都在最后一个 例如两个熊猫 三个苹松鼠 一个鱼 只需要找到最后一个物体的坐标即可<br><img src="/../images/Ali_Fruit_Slider_Yolov5/image-20240930154040381.png" srcset="/img/loading.gif" lazyload></p>
+<p>有了这个规律就不需要语义模型来二次识别了<br><img src="/../images/Ali_Fruit_Slider_Yolov5/image-20240930154141597.png" srcset="/img/loading.gif" lazyload></p>
+<p>后期训练出yolo后遍历x坐标最大的即可获得出坐标位置。</p>
+<h1 id="模型训练"><a href="#模型训练" class="headerlink" title="模型训练"></a>模型训练</h1><p>训练前先要获取数据主要是图片和类别</p>
+<p>获取直接就猛猛调接口就行了 也不建议太快 这里附上代码图 代码就不贴了<br><img src="/../images/Ali_Fruit_Slider_Yolov5/image-20240930163529811.png" srcset="/img/loading.gif" lazyload></p>
+<p>调接口把背景图保存，然后用前面的方法识别一下标题上的字获取类别，下来230多张就已经足够了 97%的准确率。类别的话可以多跑一些 基本上就能全跑完<br><img src="/../images/Ali_Fruit_Slider_Yolov5/image-20240930163657101.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="打标注"><a href="#打标注" class="headerlink" title="打标注"></a>打标注</h2><p>打标注我这里用label-studio+sam半自动标注 只需要点点点就行 可以看之前发过的一篇<br><img src="/../images/Ali_Fruit_Slider_Yolov5/image-20240912164230577.png" srcset="/img/loading.gif" lazyload></p>
+<p>我这里只标注了230张就用来训练了</p>
+<p>最后导出成yolo格式的数据<br><img src="/../images/Ali_Fruit_Slider_Yolov5/image-20240930164217157.png" srcset="/img/loading.gif" lazyload><br><img src="/../images/Ali_Fruit_Slider_Yolov5/image-20240930164259453.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="Yolov5的训练"><a href="#Yolov5的训练" class="headerlink" title="Yolov5的训练"></a>Yolov5的训练</h2><p>预装Yolov5 Copy一份coco的修改成自己的yaml<br><img src="/../images/Ali_Fruit_Slider_Yolov5/image-20240930164519668.png" srcset="/img/loading.gif" lazyload></p>
+<p>简单修改一下train.py 的参数就可以运行 开始训练了 我这里只改了数据集的位置 其他都用默认的就好了<br><img src="/../images/Ali_Fruit_Slider_Yolov5/image-20240930164745644.png" srcset="/img/loading.gif" lazyload></p>
+<p>训练好后测试一下 识别效果还不错</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> loguru <span class="hljs-keyword">import</span> logger<br><span class="hljs-keyword">import</span> torch<br><br>model=torch.hub.load(<span class="hljs-string">&quot;.&quot;</span>, <span class="hljs-string">&quot;custom&quot;</span>, path=<span class="hljs-string">&quot;./runs/train/exp12/weights/best.pt&quot;</span>, source=<span class="hljs-string">&quot;local&quot;</span>)<br><br>img=<span class="hljs-string">r&#x27;./testdetect.png&#x27;</span><br>reslut=model(img)<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">type</span>(reslut))<br><span class="hljs-comment">#输出结果 类别，置信度，坐标</span><br>logger.info(reslut.pandas().xyxy[<span class="hljs-number">0</span>])<br><br>reslut.show()<br></code></pre></td></tr></table></figure>
+
+
+<p><img src="/../images/Ali_Fruit_Slider_Yolov5/image-20240930165313552.png" srcset="/img/loading.gif" lazyload></p>
+<p>按照前面的规律就可以直接用了</p>
+<p>1.使用获取标题 </p>
+<p>2.调用模型获得图片中所有分类</p>
+<p>3.在模型结果中进行遍历 获取标题类别的所有坐标</p>
+<p>4.遍历坐标x最大位置坐标就是了 最后还要加上当前框框的宽度就行了</p>
+<h2 id="迁移部署"><a href="#迁移部署" class="headerlink" title="迁移部署"></a>迁移部署</h2><p>因为考虑了部署机器性能的原因我对其进行了迁移</p>
+<h3 id="转为Onnx"><a href="#转为Onnx" class="headerlink" title="转为Onnx"></a>转为Onnx</h3><p>直接在Yolo项目下对模型转换成onnx格式的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torch<br><span class="hljs-keyword">import</span> torchvision<br><span class="hljs-keyword">from</span> models.experimental <span class="hljs-keyword">import</span> attempt_load<br><span class="hljs-comment"># 加载模型权重</span><br>model = attempt_load(<span class="hljs-string">&#x27;runs/train/exp12/weights/best.pt&#x27;</span>, map_location=torch.device(<span class="hljs-string">&#x27;cpu&#x27;</span>))<br><span class="hljs-comment"># 设置模型为评估模式</span><br>model.<span class="hljs-built_in">eval</span>()<br><span class="hljs-comment"># 准备一个示例输入</span><br>input_tensor = torch.randn(<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">640</span>, <span class="hljs-number">640</span>)  <span class="hljs-comment"># 假设输入图像大小为 640x640</span><br><span class="hljs-comment"># 导出模型</span><br><span class="hljs-comment">#Lib\site-packages\torch\nn\modules\ activation.py</span><br>torch.onnx.export(model, input_tensor, <span class="hljs-string">&#x27;AliFruit.onnx&#x27;</span>,opset_version=<span class="hljs-number">11</span>)<br></code></pre></td></tr></table></figure>
+
+<p>转为后封装一下模型 还有一些必要的函数nms xywh2xyxy extrack letterbox这些我都是从yolo里面Copy出来的 为了最简化 这里贴出一下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">YOLOV5_ONNX</span>(<span class="hljs-title class_ inherited__">object</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self,onnx_path</span>):<br>        <span class="hljs-string">&#x27;&#x27;&#x27;初始化onnx&#x27;&#x27;&#x27;</span><br>        <span class="hljs-variable language_">self</span>.onnx_session=onnxruntime.InferenceSession(onnx_path)<br>        <span class="hljs-variable language_">self</span>.classes=[<span class="hljs-string">&#x27;乌龟&#x27;</span>,<span class="hljs-string">&#x27;企鹅&#x27;</span>,<span class="hljs-string">&#x27;伞&#x27;</span>,<span class="hljs-string">&#x27;免子&#x27;</span>,<span class="hljs-string">&#x27;冰激凌&#x27;</span>,<span class="hljs-string">&#x27;凤梨&#x27;</span>,<span class="hljs-string">&#x27;包&#x27;</span>,<span class="hljs-string">&#x27;南瓜&#x27;</span>,<span class="hljs-string">&#x27;吉他&#x27;</span>,<span class="hljs-string">&#x27;大象&#x27;</span>,<span class="hljs-string">&#x27;太阳花&#x27;</span>,<span class="hljs-string">&#x27;宇航员&#x27;</span>,<span class="hljs-string">&#x27;帐蓬&#x27;</span>,<span class="hljs-string">&#x27;帽子&#x27;</span>,<span class="hljs-string">&#x27;房子&#x27;</span>,<span class="hljs-string">&#x27;挂锁&#x27;</span>,<span class="hljs-string">&#x27;杯子&#x27;</span>,<span class="hljs-string">&#x27;松鼠&#x27;</span>,<span class="hljs-string">&#x27;枕头&#x27;</span>,<span class="hljs-string">&#x27;树&#x27;</span>,<span class="hljs-string">&#x27;树袋熊&#x27;</span>,<span class="hljs-string">&#x27;椅子&#x27;</span>,<span class="hljs-string">&#x27;气球&#x27;</span>,<span class="hljs-string">&#x27;汉堡包&#x27;</span>,<span class="hljs-string">&#x27;熊猫&#x27;</span>,<span class="hljs-string">&#x27;玫瑰花&#x27;</span>,<span class="hljs-string">&#x27;瓢虫&#x27;</span>,<span class="hljs-string">&#x27;瓶子&#x27;</span>,<span class="hljs-string">&#x27;皇冠&#x27;</span>,<span class="hljs-string">&#x27;篮子&#x27;</span>,<span class="hljs-string">&#x27;耳机&#x27;</span>,<span class="hljs-string">&#x27;花盆&#x27;</span>,<span class="hljs-string">&#x27;苹果&#x27;</span>,<span class="hljs-string">&#x27;草莓&#x27;</span>,<span class="hljs-string">&#x27;蘑菇&#x27;</span>,<span class="hljs-string">&#x27;蛋糕&#x27;</span>,<span class="hljs-string">&#x27;蝴蝶&#x27;</span>,<span class="hljs-string">&#x27;裙子&#x27;</span>,<span class="hljs-string">&#x27;足球&#x27;</span>,<span class="hljs-string">&#x27;车&#x27;</span>,<span class="hljs-string">&#x27;轮胎&#x27;</span>,<span class="hljs-string">&#x27;铲土机&#x27;</span>,<span class="hljs-string">&#x27;闹钟&#x27;</span>,<span class="hljs-string">&#x27;鞋&#x27;</span>,<span class="hljs-string">&#x27;马&#x27;</span>,<span class="hljs-string">&#x27;鱼&#x27;</span>,<span class="hljs-string">&#x27;鸟&#x27;</span>,<span class="hljs-string">&#x27;鸭子&#x27;</span>]<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">letterbox</span>(<span class="hljs-params">self,img, new_shape=(<span class="hljs-params"><span class="hljs-number">640</span>, <span class="hljs-number">640</span></span>), color=(<span class="hljs-params"><span class="hljs-number">114</span>, <span class="hljs-number">114</span>, <span class="hljs-number">114</span></span>), auto=<span class="hljs-literal">False</span>, scaleFill=<span class="hljs-literal">False</span>, scaleup=<span class="hljs-literal">True</span>,stride=<span class="hljs-number">32</span></span>):<br>        <span class="hljs-string">&#x27;&#x27;&#x27;图片归一化&#x27;&#x27;&#x27;</span><br>        <span class="hljs-comment"># Resize and pad image while meeting stride-multiple constraints</span><br>        shape = img.shape[:<span class="hljs-number">2</span>]  <span class="hljs-comment"># current shape [height, width]</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(new_shape, <span class="hljs-built_in">int</span>):<br>            new_shape = (new_shape, new_shape)<br><br>        <span class="hljs-comment"># Scale ratio (new / old)</span><br>        r = <span class="hljs-built_in">min</span>(new_shape[<span class="hljs-number">0</span>] / shape[<span class="hljs-number">0</span>], new_shape[<span class="hljs-number">1</span>] / shape[<span class="hljs-number">1</span>])<br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> scaleup:  <span class="hljs-comment"># only scale down, do not scale up (for better test mAP)</span><br>            r = <span class="hljs-built_in">min</span>(r, <span class="hljs-number">1.0</span>)<br><br>        <span class="hljs-comment"># Compute padding</span><br>        ratio = r, r  <span class="hljs-comment"># width, height ratios</span><br><br>        new_unpad = <span class="hljs-built_in">int</span>(<span class="hljs-built_in">round</span>(shape[<span class="hljs-number">1</span>] * r)), <span class="hljs-built_in">int</span>(<span class="hljs-built_in">round</span>(shape[<span class="hljs-number">0</span>] * r))<br>        dw, dh = new_shape[<span class="hljs-number">1</span>] - new_unpad[<span class="hljs-number">0</span>], new_shape[<span class="hljs-number">0</span>] - new_unpad[<span class="hljs-number">1</span>]  <span class="hljs-comment"># wh padding</span><br><br>        <span class="hljs-keyword">if</span> auto:  <span class="hljs-comment"># minimum rectangle</span><br>            dw, dh = np.mod(dw, stride), np.mod(dh, stride)  <span class="hljs-comment"># wh padding</span><br>        <span class="hljs-keyword">elif</span> scaleFill:  <span class="hljs-comment"># stretch</span><br>            dw, dh = <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span><br>            new_unpad = (new_shape[<span class="hljs-number">1</span>], new_shape[<span class="hljs-number">0</span>])<br>            ratio = new_shape[<span class="hljs-number">1</span>] / shape[<span class="hljs-number">1</span>], new_shape[<span class="hljs-number">0</span>] / shape[<span class="hljs-number">0</span>]  <span class="hljs-comment"># width, height ratios</span><br><br>        dw /= <span class="hljs-number">2</span>  <span class="hljs-comment"># divide padding into 2 sides</span><br>        dh /= <span class="hljs-number">2</span><br><br>        <span class="hljs-keyword">if</span> shape[::-<span class="hljs-number">1</span>] != new_unpad:  <span class="hljs-comment"># resize</span><br>            img = cv2.resize(img, new_unpad, interpolation=cv2.INTER_LINEAR)<br><br>        top, bottom = <span class="hljs-built_in">int</span>(<span class="hljs-built_in">round</span>(dh - <span class="hljs-number">0.1</span>)), <span class="hljs-built_in">int</span>(<span class="hljs-built_in">round</span>(dh + <span class="hljs-number">0.1</span>))<br>        left, right = <span class="hljs-built_in">int</span>(<span class="hljs-built_in">round</span>(dw - <span class="hljs-number">0.1</span>)), <span class="hljs-built_in">int</span>(<span class="hljs-built_in">round</span>(dw + <span class="hljs-number">0.1</span>))<br><br>        img = cv2.copyMakeBorder(img, top, bottom, left, right, cv2.BORDER_CONSTANT, value=color)  <span class="hljs-comment"># add border</span><br>        <span class="hljs-keyword">return</span> img, ratio, (dw, dh)<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">infer</span>(<span class="hljs-params">self,src_img</span>):<br>        <span class="hljs-string">&#x27;&#x27;&#x27;执行前向操作预测输出&#x27;&#x27;&#x27;</span><br>        or_img = <span class="hljs-variable language_">self</span>.letterbox(src_img, (<span class="hljs-number">640</span>, <span class="hljs-number">640</span>), stride=<span class="hljs-number">32</span>)[<span class="hljs-number">0</span>]<br>        <span class="hljs-comment"># BGR2RGB</span><br>        img = or_img[:, :, ::-<span class="hljs-number">1</span>].transpose(<span class="hljs-number">2</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>)  <span class="hljs-comment"># BGR2RGB和HWC2CHW</span><br>        img = img.astype(dtype=np.float32)<br>        img /= <span class="hljs-number">255.0</span><br>        img = np.expand_dims(img, axis=<span class="hljs-number">0</span>)<br>        pred = <span class="hljs-variable language_">self</span>.onnx_session.run(<span class="hljs-literal">None</span>, &#123;<span class="hljs-variable language_">self</span>.onnx_session.get_inputs()[<span class="hljs-number">0</span>].name: img&#125;)[<span class="hljs-number">0</span>]<br><br>        outbox = model.extrack(pred, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>)<br><br>        <span class="hljs-comment"># draw(or_img, outbox)</span><br>        <span class="hljs-comment"># cv2.imshow(&#x27;result&#x27;, or_img)</span><br>        <span class="hljs-comment"># cv2.waitKey(0)</span><br><br>        <span class="hljs-keyword">return</span> outbox<br><br>        <span class="hljs-comment"># dets:  array [x,6] 6个值分别为x1,y1,x2,y2,score,class</span><br>        <span class="hljs-comment"># thresh: 阈值</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">nms</span>(<span class="hljs-params">self, dets, thresh</span>):<br>        x1 = dets[:, <span class="hljs-number">0</span>]<br>        y1 = dets[:, <span class="hljs-number">1</span>]<br>        x2 = dets[:, <span class="hljs-number">2</span>]<br>        y2 = dets[:, <span class="hljs-number">3</span>]<br>        <span class="hljs-comment"># -------------------------------------------------------</span><br>        <span class="hljs-comment">#   计算框的面积</span><br>        <span class="hljs-comment">#	置信度从大到小排序</span><br>        <span class="hljs-comment"># -------------------------------------------------------</span><br>        areas = (y2 - y1 + <span class="hljs-number">1</span>) * (x2 - x1 + <span class="hljs-number">1</span>)  <span class="hljs-comment"># 公式=长*宽</span><br>        scores = dets[:, <span class="hljs-number">4</span>]<br>        keep = []<br>        index = scores.argsort()[::-<span class="hljs-number">1</span>]<br>        <span class="hljs-keyword">while</span> index.size &gt; <span class="hljs-number">0</span>:<br>            i = index[<span class="hljs-number">0</span>]<br>            keep.append(i)<br>            <span class="hljs-comment"># -------------------------------------------------------</span><br>            <span class="hljs-comment">#   计算相交面积</span><br>            <span class="hljs-comment">#	1.相交</span><br>            <span class="hljs-comment">#	2.不相交</span><br>            <span class="hljs-comment"># -------------------------------------------------------</span><br><br>            x11 = np.maximum(x1[i], x1[index[<span class="hljs-number">1</span>:]])<br>            y11 = np.maximum(y1[i], y1[index[<span class="hljs-number">1</span>:]])<br>            x22 = np.minimum(x2[i], x2[index[<span class="hljs-number">1</span>:]])<br>            y22 = np.minimum(y2[i], y2[index[<span class="hljs-number">1</span>:]])<br><br>            w = np.maximum(<span class="hljs-number">0</span>, x22 - x11 + <span class="hljs-number">1</span>)<br>            h = np.maximum(<span class="hljs-number">0</span>, y22 - y11 + <span class="hljs-number">1</span>)<br><br>            overlaps = w * h<br>            <span class="hljs-comment"># -------------------------------------------------------</span><br>            <span class="hljs-comment">#   计算该框与其它框的IOU，去除掉重复的框，即IOU值大的框</span><br>            <span class="hljs-comment">#	IOU小于thresh的框保留下来</span><br>            <span class="hljs-comment"># -------------------------------------------------------</span><br>            ious = overlaps / (areas[i] + areas[index[<span class="hljs-number">1</span>:]] - overlaps)<br>            idx = np.where(ious &lt;= thresh)[<span class="hljs-number">0</span>]<br>            index = index[idx + <span class="hljs-number">1</span>]<br>        <span class="hljs-keyword">return</span> keep<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">xywh2xyxy</span>(<span class="hljs-params">self, x</span>):<br>        <span class="hljs-comment"># [x, y, w, h] to [x1, y1, x2, y2]</span><br>        y = np.copy(x)<br>        y[:, <span class="hljs-number">0</span>] = x[:, <span class="hljs-number">0</span>] - x[:, <span class="hljs-number">2</span>] / <span class="hljs-number">2</span>  <span class="hljs-comment"># x=x-w/2</span><br>        y[:, <span class="hljs-number">1</span>] = x[:, <span class="hljs-number">1</span>] - x[:, <span class="hljs-number">3</span>] / <span class="hljs-number">2</span>  <span class="hljs-comment"># y=y-h/2</span><br>        y[:, <span class="hljs-number">2</span>] = x[:, <span class="hljs-number">0</span>] + x[:, <span class="hljs-number">2</span>] / <span class="hljs-number">2</span>  <span class="hljs-comment"># x=x+w/2</span><br>        y[:, <span class="hljs-number">3</span>] = x[:, <span class="hljs-number">1</span>] + x[:, <span class="hljs-number">3</span>] / <span class="hljs-number">2</span>  <span class="hljs-comment"># y=y+h/2</span><br>        <span class="hljs-keyword">return</span> y<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">extrack</span>(<span class="hljs-params">self, output, conf_thres=<span class="hljs-number">0.5</span>, iou_thres=<span class="hljs-number">0.5</span></span>):<br>        output = np.squeeze(output)<br>        <span class="hljs-comment"># 过滤掉置信度小于0.5的框</span><br>        outputcheck = output[..., <span class="hljs-number">4</span>] &gt; conf_thres<br>        output = output[outputcheck]<br><br>        <span class="hljs-comment"># 获取每个框最大置信度的类别 放到第6列  x,y,w,h,conf,class·····</span><br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(output)):<br>            output[i][<span class="hljs-number">5</span>] = np.argmax(output[i][<span class="hljs-number">5</span>:])<br>        <span class="hljs-comment"># 只取前6列 x,y,w,h,conf,class</span><br>        output = output[..., <span class="hljs-number">0</span>:<span class="hljs-number">6</span>]<br>        <span class="hljs-comment"># 将x,y,w,h转换为x1,y1,x2,y2</span><br>        output = <span class="hljs-variable language_">self</span>.xywh2xyxy(output)<br>        <span class="hljs-comment"># 过滤掉重复的框</span><br>        output1 = <span class="hljs-variable language_">self</span>.nms(output, iou_thres)<br>        outputlist = []<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> output1:<br>            outputlist.append(output[i])<br>        outputlist = np.array(outputlist)<br>        <span class="hljs-keyword">return</span> outputlist<br>        <br><span class="hljs-keyword">if</span> __name__==<span class="hljs-string">&quot;__main__&quot;</span>:<br>    model = YOLOV5_ONNX(onnx_path=<span class="hljs-string">&quot;./AliFruit.onnx&quot;</span>)<br>    background_img=<span class="hljs-string">&quot;base64&quot;</span><br>    back_img = b64decode(background_img.split(<span class="hljs-string">&#x27;base64,&#x27;</span>)[-<span class="hljs-number">1</span>])<br>    back_img = cv2.imdecode(np.frombuffer(back_img, np.uint8), cv2.IMREAD_COLOR)<br>    result = model.infer(back_img).tolist()<br><br></code></pre></td></tr></table></figure>
+
+
+
+<p>最后我使用了flask来部署调用</p>
+<p>这里附上全部代码（1.0版本的）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#encoding:utf-8</span><br><span class="hljs-keyword">import</span> time<br><span class="hljs-keyword">from</span> io <span class="hljs-keyword">import</span> BytesIO<br><span class="hljs-keyword">import</span> onnxruntime<br><span class="hljs-keyword">from</span> loguru <span class="hljs-keyword">import</span> logger<br><span class="hljs-keyword">from</span> base64 <span class="hljs-keyword">import</span> b64decode<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> cv2<br><span class="hljs-keyword">from</span> PIL <span class="hljs-keyword">import</span> Image<br><span class="hljs-keyword">from</span> ddddocr <span class="hljs-keyword">import</span> DdddOcr<br><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask, request<br><br>logger.add(<span class="hljs-string">&quot;Flask_Web.log&quot;</span>, rotation=<span class="hljs-string">&quot;10 MB&quot;</span>, encoding=<span class="hljs-string">&quot;utf-8&quot;</span>, level=<span class="hljs-string">&quot;INFO&quot;</span>)<br>app = Flask(__name__)<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">YOLOV5_ONNX</span>(<span class="hljs-title class_ inherited__">object</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self,onnx_path</span>):<br>        <span class="hljs-string">&#x27;&#x27;&#x27;初始化onnx&#x27;&#x27;&#x27;</span><br>        <span class="hljs-variable language_">self</span>.onnx_session=onnxruntime.InferenceSession(onnx_path)<br>        <span class="hljs-variable language_">self</span>.classes=[<span class="hljs-string">&#x27;乌龟&#x27;</span>,<span class="hljs-string">&#x27;企鹅&#x27;</span>,<span class="hljs-string">&#x27;伞&#x27;</span>,<span class="hljs-string">&#x27;免子&#x27;</span>,<span class="hljs-string">&#x27;冰激凌&#x27;</span>,<span class="hljs-string">&#x27;凤梨&#x27;</span>,<span class="hljs-string">&#x27;包&#x27;</span>,<span class="hljs-string">&#x27;南瓜&#x27;</span>,<span class="hljs-string">&#x27;吉他&#x27;</span>,<span class="hljs-string">&#x27;大象&#x27;</span>,<span class="hljs-string">&#x27;太阳花&#x27;</span>,<span class="hljs-string">&#x27;宇航员&#x27;</span>,<span class="hljs-string">&#x27;帐蓬&#x27;</span>,<span class="hljs-string">&#x27;帽子&#x27;</span>,<span class="hljs-string">&#x27;房子&#x27;</span>,<span class="hljs-string">&#x27;挂锁&#x27;</span>,<span class="hljs-string">&#x27;杯子&#x27;</span>,<span class="hljs-string">&#x27;松鼠&#x27;</span>,<span class="hljs-string">&#x27;枕头&#x27;</span>,<span class="hljs-string">&#x27;树&#x27;</span>,<span class="hljs-string">&#x27;树袋熊&#x27;</span>,<span class="hljs-string">&#x27;椅子&#x27;</span>,<span class="hljs-string">&#x27;气球&#x27;</span>,<span class="hljs-string">&#x27;汉堡包&#x27;</span>,<span class="hljs-string">&#x27;熊猫&#x27;</span>,<span class="hljs-string">&#x27;玫瑰花&#x27;</span>,<span class="hljs-string">&#x27;瓢虫&#x27;</span>,<span class="hljs-string">&#x27;瓶子&#x27;</span>,<span class="hljs-string">&#x27;皇冠&#x27;</span>,<span class="hljs-string">&#x27;篮子&#x27;</span>,<span class="hljs-string">&#x27;耳机&#x27;</span>,<span class="hljs-string">&#x27;花盆&#x27;</span>,<span class="hljs-string">&#x27;苹果&#x27;</span>,<span class="hljs-string">&#x27;草莓&#x27;</span>,<span class="hljs-string">&#x27;蘑菇&#x27;</span>,<span class="hljs-string">&#x27;蛋糕&#x27;</span>,<span class="hljs-string">&#x27;蝴蝶&#x27;</span>,<span class="hljs-string">&#x27;裙子&#x27;</span>,<span class="hljs-string">&#x27;足球&#x27;</span>,<span class="hljs-string">&#x27;车&#x27;</span>,<span class="hljs-string">&#x27;轮胎&#x27;</span>,<span class="hljs-string">&#x27;铲土机&#x27;</span>,<span class="hljs-string">&#x27;闹钟&#x27;</span>,<span class="hljs-string">&#x27;鞋&#x27;</span>,<span class="hljs-string">&#x27;马&#x27;</span>,<span class="hljs-string">&#x27;鱼&#x27;</span>,<span class="hljs-string">&#x27;鸟&#x27;</span>,<span class="hljs-string">&#x27;鸭子&#x27;</span>]<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">letterbox</span>(<span class="hljs-params">self,img, new_shape=(<span class="hljs-params"><span class="hljs-number">640</span>, <span class="hljs-number">640</span></span>), color=(<span class="hljs-params"><span class="hljs-number">114</span>, <span class="hljs-number">114</span>, <span class="hljs-number">114</span></span>), auto=<span class="hljs-literal">False</span>, scaleFill=<span class="hljs-literal">False</span>, scaleup=<span class="hljs-literal">True</span>,stride=<span class="hljs-number">32</span></span>):<br>        <span class="hljs-string">&#x27;&#x27;&#x27;图片归一化&#x27;&#x27;&#x27;</span><br>        <span class="hljs-comment"># Resize and pad image while meeting stride-multiple constraints</span><br>        shape = img.shape[:<span class="hljs-number">2</span>]  <span class="hljs-comment"># current shape [height, width]</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(new_shape, <span class="hljs-built_in">int</span>):<br>            new_shape = (new_shape, new_shape)<br><br>        <span class="hljs-comment"># Scale ratio (new / old)</span><br>        r = <span class="hljs-built_in">min</span>(new_shape[<span class="hljs-number">0</span>] / shape[<span class="hljs-number">0</span>], new_shape[<span class="hljs-number">1</span>] / shape[<span class="hljs-number">1</span>])<br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> scaleup:  <span class="hljs-comment"># only scale down, do not scale up (for better test mAP)</span><br>            r = <span class="hljs-built_in">min</span>(r, <span class="hljs-number">1.0</span>)<br><br>        <span class="hljs-comment"># Compute padding</span><br>        ratio = r, r  <span class="hljs-comment"># width, height ratios</span><br><br>        new_unpad = <span class="hljs-built_in">int</span>(<span class="hljs-built_in">round</span>(shape[<span class="hljs-number">1</span>] * r)), <span class="hljs-built_in">int</span>(<span class="hljs-built_in">round</span>(shape[<span class="hljs-number">0</span>] * r))<br>        dw, dh = new_shape[<span class="hljs-number">1</span>] - new_unpad[<span class="hljs-number">0</span>], new_shape[<span class="hljs-number">0</span>] - new_unpad[<span class="hljs-number">1</span>]  <span class="hljs-comment"># wh padding</span><br><br>        <span class="hljs-keyword">if</span> auto:  <span class="hljs-comment"># minimum rectangle</span><br>            dw, dh = np.mod(dw, stride), np.mod(dh, stride)  <span class="hljs-comment"># wh padding</span><br>        <span class="hljs-keyword">elif</span> scaleFill:  <span class="hljs-comment"># stretch</span><br>            dw, dh = <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span><br>            new_unpad = (new_shape[<span class="hljs-number">1</span>], new_shape[<span class="hljs-number">0</span>])<br>            ratio = new_shape[<span class="hljs-number">1</span>] / shape[<span class="hljs-number">1</span>], new_shape[<span class="hljs-number">0</span>] / shape[<span class="hljs-number">0</span>]  <span class="hljs-comment"># width, height ratios</span><br><br>        dw /= <span class="hljs-number">2</span>  <span class="hljs-comment"># divide padding into 2 sides</span><br>        dh /= <span class="hljs-number">2</span><br><br>        <span class="hljs-keyword">if</span> shape[::-<span class="hljs-number">1</span>] != new_unpad:  <span class="hljs-comment"># resize</span><br>            img = cv2.resize(img, new_unpad, interpolation=cv2.INTER_LINEAR)<br><br>        top, bottom = <span class="hljs-built_in">int</span>(<span class="hljs-built_in">round</span>(dh - <span class="hljs-number">0.1</span>)), <span class="hljs-built_in">int</span>(<span class="hljs-built_in">round</span>(dh + <span class="hljs-number">0.1</span>))<br>        left, right = <span class="hljs-built_in">int</span>(<span class="hljs-built_in">round</span>(dw - <span class="hljs-number">0.1</span>)), <span class="hljs-built_in">int</span>(<span class="hljs-built_in">round</span>(dw + <span class="hljs-number">0.1</span>))<br><br>        img = cv2.copyMakeBorder(img, top, bottom, left, right, cv2.BORDER_CONSTANT, value=color)  <span class="hljs-comment"># add border</span><br>        <span class="hljs-keyword">return</span> img, ratio, (dw, dh)<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">infer</span>(<span class="hljs-params">self,src_img</span>):<br>        <span class="hljs-string">&#x27;&#x27;&#x27;执行前向操作预测输出&#x27;&#x27;&#x27;</span><br>        or_img = <span class="hljs-variable language_">self</span>.letterbox(src_img, (<span class="hljs-number">640</span>, <span class="hljs-number">640</span>), stride=<span class="hljs-number">32</span>)[<span class="hljs-number">0</span>]<br>        <span class="hljs-comment"># BGR2RGB</span><br>        img = or_img[:, :, ::-<span class="hljs-number">1</span>].transpose(<span class="hljs-number">2</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>)  <span class="hljs-comment"># BGR2RGB和HWC2CHW</span><br>        img = img.astype(dtype=np.float32)<br>        img /= <span class="hljs-number">255.0</span><br>        img = np.expand_dims(img, axis=<span class="hljs-number">0</span>)<br>        pred = <span class="hljs-variable language_">self</span>.onnx_session.run(<span class="hljs-literal">None</span>, &#123;<span class="hljs-variable language_">self</span>.onnx_session.get_inputs()[<span class="hljs-number">0</span>].name: img&#125;)[<span class="hljs-number">0</span>]<br><br>        outbox = model.extrack(pred, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>)<br><br>        <span class="hljs-comment"># draw(or_img, outbox)</span><br>        <span class="hljs-comment"># cv2.imshow(&#x27;result&#x27;, or_img)</span><br>        <span class="hljs-comment"># cv2.waitKey(0)</span><br><br>        <span class="hljs-keyword">return</span> outbox<br><br>        <span class="hljs-comment"># dets:  array [x,6] 6个值分别为x1,y1,x2,y2,score,class</span><br>        <span class="hljs-comment"># thresh: 阈值</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">nms</span>(<span class="hljs-params">self, dets, thresh</span>):<br>        x1 = dets[:, <span class="hljs-number">0</span>]<br>        y1 = dets[:, <span class="hljs-number">1</span>]<br>        x2 = dets[:, <span class="hljs-number">2</span>]<br>        y2 = dets[:, <span class="hljs-number">3</span>]<br>        <span class="hljs-comment"># -------------------------------------------------------</span><br>        <span class="hljs-comment">#   计算框的面积</span><br>        <span class="hljs-comment">#	置信度从大到小排序</span><br>        <span class="hljs-comment"># -------------------------------------------------------</span><br>        areas = (y2 - y1 + <span class="hljs-number">1</span>) * (x2 - x1 + <span class="hljs-number">1</span>)  <span class="hljs-comment"># 公式=长*宽</span><br>        scores = dets[:, <span class="hljs-number">4</span>]<br>        keep = []<br>        index = scores.argsort()[::-<span class="hljs-number">1</span>]<br>        <span class="hljs-keyword">while</span> index.size &gt; <span class="hljs-number">0</span>:<br>            i = index[<span class="hljs-number">0</span>]<br>            keep.append(i)<br>            <span class="hljs-comment"># -------------------------------------------------------</span><br>            <span class="hljs-comment">#   计算相交面积</span><br>            <span class="hljs-comment">#	1.相交</span><br>            <span class="hljs-comment">#	2.不相交</span><br>            <span class="hljs-comment"># -------------------------------------------------------</span><br><br>            x11 = np.maximum(x1[i], x1[index[<span class="hljs-number">1</span>:]])<br>            y11 = np.maximum(y1[i], y1[index[<span class="hljs-number">1</span>:]])<br>            x22 = np.minimum(x2[i], x2[index[<span class="hljs-number">1</span>:]])<br>            y22 = np.minimum(y2[i], y2[index[<span class="hljs-number">1</span>:]])<br><br>            w = np.maximum(<span class="hljs-number">0</span>, x22 - x11 + <span class="hljs-number">1</span>)<br>            h = np.maximum(<span class="hljs-number">0</span>, y22 - y11 + <span class="hljs-number">1</span>)<br><br>            overlaps = w * h<br>            <span class="hljs-comment"># -------------------------------------------------------</span><br>            <span class="hljs-comment">#   计算该框与其它框的IOU，去除掉重复的框，即IOU值大的框</span><br>            <span class="hljs-comment">#	IOU小于thresh的框保留下来</span><br>            <span class="hljs-comment"># -------------------------------------------------------</span><br>            ious = overlaps / (areas[i] + areas[index[<span class="hljs-number">1</span>:]] - overlaps)<br>            idx = np.where(ious &lt;= thresh)[<span class="hljs-number">0</span>]<br>            index = index[idx + <span class="hljs-number">1</span>]<br>        <span class="hljs-keyword">return</span> keep<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">xywh2xyxy</span>(<span class="hljs-params">self, x</span>):<br>        <span class="hljs-comment"># [x, y, w, h] to [x1, y1, x2, y2]</span><br>        y = np.copy(x)<br>        y[:, <span class="hljs-number">0</span>] = x[:, <span class="hljs-number">0</span>] - x[:, <span class="hljs-number">2</span>] / <span class="hljs-number">2</span>  <span class="hljs-comment"># x=x-w/2</span><br>        y[:, <span class="hljs-number">1</span>] = x[:, <span class="hljs-number">1</span>] - x[:, <span class="hljs-number">3</span>] / <span class="hljs-number">2</span>  <span class="hljs-comment"># y=y-h/2</span><br>        y[:, <span class="hljs-number">2</span>] = x[:, <span class="hljs-number">0</span>] + x[:, <span class="hljs-number">2</span>] / <span class="hljs-number">2</span>  <span class="hljs-comment"># x=x+w/2</span><br>        y[:, <span class="hljs-number">3</span>] = x[:, <span class="hljs-number">1</span>] + x[:, <span class="hljs-number">3</span>] / <span class="hljs-number">2</span>  <span class="hljs-comment"># y=y+h/2</span><br>        <span class="hljs-keyword">return</span> y<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">extrack</span>(<span class="hljs-params">self, output, conf_thres=<span class="hljs-number">0.5</span>, iou_thres=<span class="hljs-number">0.5</span></span>):<br>        output = np.squeeze(output)<br>        <span class="hljs-comment"># 过滤掉置信度小于0.5的框</span><br>        outputcheck = output[..., <span class="hljs-number">4</span>] &gt; conf_thres<br>        output = output[outputcheck]<br><br>        <span class="hljs-comment"># 获取每个框最大置信度的类别 放到第6列  x,y,w,h,conf,class·····</span><br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(output)):<br>            output[i][<span class="hljs-number">5</span>] = np.argmax(output[i][<span class="hljs-number">5</span>:])<br>        <span class="hljs-comment"># 只取前6列 x,y,w,h,conf,class</span><br>        output = output[..., <span class="hljs-number">0</span>:<span class="hljs-number">6</span>]<br>        <span class="hljs-comment"># 将x,y,w,h转换为x1,y1,x2,y2</span><br>        output = <span class="hljs-variable language_">self</span>.xywh2xyxy(output)<br>        <span class="hljs-comment"># 过滤掉重复的框</span><br>        output1 = <span class="hljs-variable language_">self</span>.nms(output, iou_thres)<br>        outputlist = []<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> output1:<br>            outputlist.append(output[i])<br>        outputlist = np.array(outputlist)<br>        <span class="hljs-keyword">return</span> outputlist<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">deal_que_new_img</span>(<span class="hljs-params">bin_image</span>):<br>    img = Image.<span class="hljs-built_in">open</span>(BytesIO(bin_image)).convert(<span class="hljs-string">&quot;RGBA&quot;</span>)<br>    background = Image.new(<span class="hljs-string">&quot;RGBA&quot;</span>, img.size, (<span class="hljs-number">255</span>, <span class="hljs-number">255</span>, <span class="hljs-number">255</span>, <span class="hljs-number">255</span>))<br>    img = Image.alpha_composite(background, img)<br>    image = img.crop((<span class="hljs-number">143</span>, <span class="hljs-number">0</span>, img.size[<span class="hljs-number">0</span>], img.size[<span class="hljs-number">1</span>]))<br>    <span class="hljs-comment"># image.show()</span><br>    ocr_res = ocr.classification(image).split(<span class="hljs-string">&#x27;后&#x27;</span>)[<span class="hljs-number">0</span>]<br>    logger.info(<span class="hljs-string">f&quot;识别结果：<span class="hljs-subst">&#123;ocr_res&#125;</span>&quot;</span>)<br>    <span class="hljs-keyword">return</span> ocr_res<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">draw</span>(<span class="hljs-params">image, box_data</span>):<br>    <span class="hljs-comment"># -------------------------------------------------------</span><br>    <span class="hljs-comment">#	取整，方便画框</span><br>    <span class="hljs-comment"># -------------------------------------------------------</span><br>    boxes = box_data[..., :<span class="hljs-number">4</span>].astype(np.int32)<br>    scores = box_data[..., <span class="hljs-number">4</span>]<br>    <span class="hljs-comment"># print(scores)</span><br>    classes = box_data[..., <span class="hljs-number">5</span>].astype(np.int32)<br>    <span class="hljs-keyword">for</span> box, score, cl <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(boxes, scores, classes):<br>        top, left, right, bottom = box<br>        cv2.rectangle(image, (top, left), (right, bottom), (<span class="hljs-number">255</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>), <span class="hljs-number">2</span>)<br>        cv2.putText(image, <span class="hljs-string">&#x27;&#123;0&#125; &#123;1:.2f&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(<span class="hljs-number">0</span>, score), (top, left), cv2.FONT_HERSHEY_SIMPLEX, <span class="hljs-number">0.6</span>, (<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">255</span>), <span class="hljs-number">2</span>, lineType=cv2.LINE_AA)<br><br><br><span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/getdetectresult&#x27;</span>, methods=[<span class="hljs-string">&#x27;POST&#x27;</span>]</span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">getdetectresult</span>():<br>    notitme=time.time()<br>    <span class="hljs-keyword">try</span>:<br>        jsondata = request.json<br>        <span class="hljs-built_in">print</span>(jsondata)<br><br>        title_img1 = jsondata.get(<span class="hljs-string">&quot;title_img1&quot;</span>)<br>        <span class="hljs-built_in">print</span>(title_img1)<br>        background_img = jsondata.get(<span class="hljs-string">&quot;background_img&quot;</span>)<br><br>        que_img = b64decode(title_img1.split(<span class="hljs-string">&#x27;base64,&#x27;</span>)[-<span class="hljs-number">1</span>])<br>        queue = deal_que_new_img(que_img)<br><br>        back_img = b64decode(background_img.split(<span class="hljs-string">&#x27;base64,&#x27;</span>)[-<span class="hljs-number">1</span>])<br>        back_img = cv2.imdecode(np.frombuffer(back_img, np.uint8), cv2.IMREAD_COLOR)<br><br>        result = model.infer(back_img).tolist()<br><br>        queid = model.classes.index(queue.split(<span class="hljs-string">&quot;个&quot;</span>)[-<span class="hljs-number">1</span>])<br>        <span class="hljs-comment"># print(result)</span><br>        rere = [i <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> result <span class="hljs-keyword">if</span> <span class="hljs-built_in">int</span>(i[<span class="hljs-number">5</span>]) == queid]<br>        rere.sort(key=<span class="hljs-keyword">lambda</span> x: x[<span class="hljs-number">2</span>])<br>        drawdict = rere[-<span class="hljs-number">1</span>]<br><br>        result_x = <span class="hljs-built_in">int</span>(drawdict[<span class="hljs-number">2</span>] / <span class="hljs-number">640</span> * back_img.shape[<span class="hljs-number">1</span>])<br>        logger.info(<span class="hljs-string">f&quot;<span class="hljs-subst">&#123;queue&#125;</span>\t<span class="hljs-subst">&#123;result_x&#125;</span>\t<span class="hljs-subst">&#123;result&#125;</span>&quot;</span>)<br>    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>        logger.error(e)<br>        <span class="hljs-keyword">return</span> &#123;<span class="hljs-string">&quot;code&quot;</span>:-<span class="hljs-number">1</span>,<span class="hljs-string">&quot;msg&quot;</span>:<span class="hljs-string">&quot;未识别到&quot;</span>,<span class="hljs-string">&quot;data&quot;</span>:[]&#125;<br>    logger.info(<span class="hljs-string">f&quot;耗时：<span class="hljs-subst">&#123;time.time()-notitme&#125;</span>&quot;</span>)<br>    <span class="hljs-keyword">return</span> &#123;<span class="hljs-string">&quot;code&quot;</span>:<span class="hljs-number">0</span>,<span class="hljs-string">&quot;msg&quot;</span>:<span class="hljs-string">&quot;识别成功&quot;</span>,<span class="hljs-string">&quot;data&quot;</span>:&#123;<span class="hljs-string">&quot;x&quot;</span>:result_x,<span class="hljs-string">&quot;queue&quot;</span>:queue,<span class="hljs-string">&quot;result_detect&quot;</span>:result&#125;&#125;<br><br><span class="hljs-keyword">if</span> __name__==<span class="hljs-string">&quot;__main__&quot;</span>:<br>    ocr = DdddOcr(show_ad=<span class="hljs-literal">False</span>)<br>    model = YOLOV5_ONNX(onnx_path=<span class="hljs-string">&quot;./AliFruit.onnx&quot;</span>)<br>    app.run(host=<span class="hljs-string">&#x27;0.0.0.0&#x27;</span>, port=<span class="hljs-number">8848</span>, debug=<span class="hljs-literal">True</span>)<br><br></code></pre></td></tr></table></figure>
+
+
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/" class="category-chain-item">杂七杂八</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/%E9%80%86%E5%90%91/" class="category-chain-item">逆向</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Python/" class="print-no-link">#Python</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>某里两种版本的水果滑块训练——Yolov5</div>
+      <div>https://wantoper.github.io/2024/09/30/old/Ali_Fruit_Slider_Yolov5/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Wantoper</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年9月30日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/10/03/old/proxifier-fiddler/" title="Proxifier+Fiddler抓包">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Proxifier+Fiddler抓包</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/09/12/old/label-studio-sam/" title="部署Playground自动标注工具的部署和使用">
+                        <span class="hidden-mobile">部署Playground自动标注工具的部署和使用</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

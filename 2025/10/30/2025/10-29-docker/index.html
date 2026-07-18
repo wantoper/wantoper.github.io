@@ -1,0 +1,723 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.jpg">
+  <link rel="icon" href="/img/avatar.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Wantoper">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="记录一下学习Docker的过程，包括Docker的基本概念、安装配置、使用技巧等。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker深入理解">
+<meta property="og:url" content="https://wantoper.github.io/2025/10/30/2025/10-29-docker/index.html">
+<meta property="og:site_name" content="Wantoper&#39;s Blog">
+<meta property="og:description" content="记录一下学习Docker的过程，包括Docker的基本概念、安装配置、使用技巧等。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wantoper.github.io/images/10-29-docker/image-2.png">
+<meta property="og:image" content="https://wantoper.github.io/images/10-29-docker/image-3.png">
+<meta property="og:image" content="https://wantoper.github.io/images/10-29-docker/image-9.png">
+<meta property="og:image" content="https://wantoper.github.io/images/10-29-docker/image-10.png">
+<meta property="og:image" content="https://wantoper.github.io/images/10-29-docker/image-4.png">
+<meta property="og:image" content="https://wantoper.github.io/images/10-29-docker/image-5.png">
+<meta property="og:image" content="https://wantoper.github.io/images/10-29-docker/image-6.png">
+<meta property="og:image" content="https://wantoper.github.io/images/10-29-docker/image-7.png">
+<meta property="og:image" content="https://wantoper.github.io/images/10-29-docker/image-8.png">
+<meta property="article:published_time" content="2025-10-29T16:04:13.000Z">
+<meta property="article:modified_time" content="2026-07-18T16:39:28.912Z">
+<meta property="article:author" content="Wantoper">
+<meta property="article:tag" content="devops">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wantoper.github.io/images/10-29-docker/image-2.png">
+  
+  
+  
+  <title>Docker深入理解 - Wantoper&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wantoper.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wantoper&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Docker深入理解"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-10-30 00:04" pubdate>
+          2025年10月30日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          14 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Docker深入理解</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Docker深入理解"><a href="#Docker深入理解" class="headerlink" title="Docker深入理解"></a>Docker深入理解</h1><h2 id="容器的本质"><a href="#容器的本质" class="headerlink" title="容器的本质"></a>容器的本质</h2><h3 id="Namespace隔离"><a href="#Namespace隔离" class="headerlink" title="Namespace隔离"></a>Namespace隔离</h3><ul>
+<li><p>容器是一个进程，在启动时被设置了新的NameSpace，包括新的IPC、Network、PID、Mount、UTs，所以容器看到的进程情况，网络情况，磁盘挂载情况都与宿主机不同。</p>
+</li>
+<li><p>容器被关在NameSpace的笼子里，与宿主机隔离开来，看到的世界与宿主机不同。</p>
+</li>
+</ul>
+<h3 id="Cgroup资源限制"><a href="#Cgroup资源限制" class="headerlink" title="Cgroup资源限制"></a>Cgroup资源限制</h3><ul>
+<li><p>Docker限制容器的CPU资源使用的目录: <code>/sys/fs/cgroup/cpu/docker/&lt;pid&gt;</code>目录</p>
+</li>
+<li><p>Docker限制容器的内存资源使用的目录: <code>/sys/fs/cgroup/memory/docker/&lt;pid&gt;</code>目录</p>
+</li>
+</ul>
+<p>容器的生命周期时强行与 pid1的进程绑定的，当pid为1的进程结束时，容器就会停止。</p>
+<h2 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h2><h3 id="Overlay2"><a href="#Overlay2" class="headerlink" title="Overlay2"></a>Overlay2</h3><p>Docker使用的是Overlay2文件系统，可以分为多个<strong>lower只读层</strong>和<strong>upper读写层</strong>进行组合成一个<strong>merge</strong>视图目录。</p>
+<p>对merge目录修改时只会影响顶层的目录，对新增、修改、删除操作只是在顶层做了一个遮罩，而底层保持不变（这种不在源文件上修改，而是在需要修改时复制出副本，在副本上进行修改的方法，被称之为”写时复制”，写时复制的英文为copy-on-write，首字母简称COW）。</p>
+<p><img src="/../../images/10-29-docker/image-2.png" srcset="/img/loading.gif" lazyload alt="overlay2文件层级"></p>
+<p><img src="/../../images/10-29-docker/image-3.png" srcset="/img/loading.gif" lazyload alt="docker容器文件层级"></p>
+<p>容器中实际的情况<code>docker inspect &lt;container_id&gt;</code>：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;GraphDriver&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;Data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>            <span class="hljs-attr">&quot;ID&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;e850b147b6ba1a0188d53c1bf5c6c6dd2f1dba4790135344ce69ed794668e3d2&quot;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;LowerDir&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;/var/lib/docker/overlay2/6b05f0e12651bdf01229e6c7ca16b5c4e808032eec5399b4fc3239d12206f98c-init/diff:/var/lib/docker/overlay2/e8d7e546ab388ad2a99f545991b5fc2f3349acae0ab94e77b728e1782c7ab28f/diff:/var/lib/docker/overlay2/965aeda586d4796719e0182c854b2d154b8d530bd9e5f8397d4273231e4a6154/diff:/var/lib/docker/overlay2/3ccd0076227300cbbd0ca575ec1ee7e2e4b454ec0c3a6e09a6a757b1d0a01c05/diff:/var/lib/docker/overlay2/f185936b821cca10fdbbd79efc02b7934b50f11541bbb0a66badf4b1555f01ce/diff:/var/lib/docker/overlay2/e8207f21255632a9347bdb62183bb7b76d07c07d9fc1d9a0c75bb3081c3af26b/diff:/var/lib/docker/overlay2/86967ef6df3ad6507858052639703cabfa1db40c9702662138d015e6cce16110/diff:/var/lib/docker/overlay2/cd754e3e2c4b999b93cb41f497fb1d7c972945241c295882d7173abbddfc29d3/diff:/var/lib/docker/overlay2/9a785f27b0935bf832038698914c3a2edf8720541c9c9e50e527c51d8d230d53/diff&quot;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;MergedDir&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;/var/lib/docker/overlay2/6b05f0e12651bdf01229e6c7ca16b5c4e808032eec5399b4fc3239d12206f98c/merged&quot;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;UpperDir&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;/var/lib/docker/overlay2/6b05f0e12651bdf01229e6c7ca16b5c4e808032eec5399b4fc3239d12206f98c/diff&quot;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;WorkDir&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;/var/lib/docker/overlay2/6b05f0e12651bdf01229e6c7ca16b5c4e808032eec5399b4fc3239d12206f98c/work&quot;</span><br>        <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;Name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;overlay2&quot;</span><br>    <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>LowerDir作为只读层，UpperDir作为可读写层，merged则为容器内最终的视图目录。</p>
+<p>可以看到这里还有一层init层，这里面会包含一些主机个性化的配置hostname、hosts、mtab、resolv.conf，init层中的文件实际上也不会发生读写，他们是被额外的mount来进行挂载进容器内的。</p>
+<p><img src="/../../images/10-29-docker/image-9.png" srcset="/img/loading.gif" lazyload alt="alt text"></p>
+<p>在使用docker commit时只会对diff层进行打包构建成上层包，从而变成新镜像，因为init的个性配置所以也不会被进行打包进镜像。</p>
+<p><img src="/../../images/10-29-docker/image-10.png" srcset="/img/loading.gif" lazyload alt="alt text"></p>
+<h3 id="持久化-数据卷"><a href="#持久化-数据卷" class="headerlink" title="持久化&#x2F;数据卷"></a>持久化&#x2F;数据卷</h3><p>因为Docker在删除容器时会将容器的可读性层一并进行删除，所以如果想保留数据则需要用到数据卷持久化功能。</p>
+<p>数据卷其实就是将主机下的目录映射至容器内，就相当于把主机的目录和容器的目录建立了映射关系，在容器删除时并不会删除容器之外的目录，也就达到了持久化的效果。</p>
+<p>使用卷很简单只需要在docker run时加上 -v或–volume参数即可：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker run -td --name testCon --vtestA:/data alpine<br></code></pre></td></tr></table></figure>
+
+<p>Docker的持久化有两种方式一种是bind 一种是 volume，他们的作用在于：</p>
+<ul>
+<li>一种是将 <strong>宿主机已有文件映射至容器内</strong> </li>
+<li>一种是将 <strong>容器内的文件持久化至主机外</strong></li>
+</ul>
+<p>具体区别：</p>
+<ul>
+<li>在使用<code>-v /www:/www</code>时使用的就是bind，&#x2F;www就是主机上的目录，他的特点在于会一定的覆盖容器内的目录；</li>
+<li>在使用<code>-v www:/www</code>时使用的就是volume，www就是数据卷的名称，如果不存在他会自动创建，他的特点在于当<strong>数据卷内没有文件时会将容器的文件复制至卷中</strong>，当卷中有数据后会以卷中的数据覆盖容器内的数据。</li>
+</ul>
+<p><img src="/../../images/10-29-docker/image-4.png" srcset="/img/loading.gif" lazyload alt="挂载方式的区别"></p>
+<p>docker commit打包时不包含持久化的文件：</p>
+<p><img src="/../../images/10-29-docker/image-5.png" srcset="/img/loading.gif" lazyload alt="docker commit原理"></p>
+<h2 id="容器网络"><a href="#容器网络" class="headerlink" title="容器网络"></a>容器网络</h2><p>我们可以使用<code>docker network</code>命令，对docker的网络资源进行管理。<br>首先，使用如下命令，查看一下docker默认创建的网络：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@cos7-1 ~]# docker network <span class="hljs-built_in">ls</span><br>NETWORK ID     NAME      DRIVER    SCOPE<br>ffe9bc57a881   bridge    bridge    <span class="hljs-built_in">local</span><br>7d79c20080e2   host      host      <span class="hljs-built_in">local</span><br>1b62645fd07d   none      null      <span class="hljs-built_in">local</span><br></code></pre></td></tr></table></figure>
+
+<p>如上所示，docker默认创建了三个网络，三个网络分别使用了不同的网络驱动类型：</p>
+<ol>
+<li>第一个网络名为<code>bridge</code>，使用bridge类型的驱动，这个网络就是我们一直在用的默认网络，此网络使用docker0作为虚拟交换机。</li>
+<li>第二个网络名为<code>host</code>，使用host类型的驱动，当容器接入此网络时，会共享宿主机的网络空间。</li>
+<li>第三个网络名为<code>none</code>，没有使用任何类型的网络驱动，当容器使用none网络时，表示禁用网络。</li>
+</ol>
+<h3 id="Bridge网络原理"><a href="#Bridge网络原理" class="headerlink" title="Bridge网络原理"></a>Bridge网络原理</h3><p>容器每次停止后启动的ip都会动态的变化：</p>
+<p><img src="/../../images/10-29-docker/image-6.png" srcset="/img/loading.gif" lazyload alt="veth的原理"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker run -it --<span class="hljs-built_in">rm</span> --name b1 --network=none busybox<br><span class="hljs-comment"># 映射net namespace 让 ip netns exec 可以在/var/run/netns找到对应的namespace</span><br><span class="hljs-built_in">ln</span> -s /var/run/docker/netns /var/run/netns<br><br>docker inspect b1|grep -i sandboxkey<br><br><span class="hljs-comment">#创建veth对</span><br>ip <span class="hljs-built_in">link</span> add veth0 <span class="hljs-built_in">type</span> veth peer name veth1<br><br><span class="hljs-comment"># 将veth0放入到 容器的net namespace中</span><br>ip <span class="hljs-built_in">link</span> <span class="hljs-built_in">set</span> veth0 netns a61c8cce73df<br><br><span class="hljs-comment"># 在容器ns中修改veth0为eth0</span><br>ip netns <span class="hljs-built_in">exec</span> a61c8cce73df ip <span class="hljs-built_in">link</span> <span class="hljs-built_in">set</span> dev veth0 name eth0<br><span class="hljs-comment"># 为eth0分配ip</span><br>ip netns <span class="hljs-built_in">exec</span> a61c8cce73df ip addr add 172.17.0.10/24 dev eth0<br><span class="hljs-comment"># 启用eth0</span><br>ip netns <span class="hljs-built_in">exec</span> a61c8cce73df ip <span class="hljs-built_in">link</span>  <span class="hljs-built_in">set</span> eth0 up<br><span class="hljs-comment"># 设置网关</span><br>ip netns <span class="hljs-built_in">exec</span> a61c8cce73df route add default gw 172.17.0.1 eth0<br><br><br><span class="hljs-comment"># 将veth1连接到docker0网卡</span><br>ip <span class="hljs-built_in">link</span> <span class="hljs-built_in">set</span> dev veth1 master docker0<br>ip <span class="hljs-built_in">link</span> <span class="hljs-built_in">set</span> veth1 up<br><br>此时容器内<br>ping 172.17.0.1<br>ping baidu.com<br>都以正常<br></code></pre></td></tr></table></figure>
+
+<h3 id="容器访问外网"><a href="#容器访问外网" class="headerlink" title="容器访问外网"></a>容器访问外网</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash">Chain POSTROUTING (policy ACCEPT 0 packets, 0 bytes)<br> pkts bytes target     prot opt <span class="hljs-keyword">in</span>     out     <span class="hljs-built_in">source</span>               destination         <br>   12   728 MASQUERADE  all  --  *      !docker0  172.17.0.0/16        0.0.0.0/0           <br>    0     0 MASQUERADE  all  --  *      !br-610d9300c055  172.20.0.0/16        0.0.0.0/0           <br> 341K   20M MASQUERADE  all  --  *      !br-7dde1c124308  172.19.0.0/16        0.0.0.0/0 <br><br><span class="hljs-comment"># 来自172.17.0.0/16网段的ip   非去往docker0网卡的 请求 都做MASQUERADE 源地址转换</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/../../images/10-29-docker/image-7.png" srcset="/img/loading.gif" lazyload alt="容器访问外网流程"></p>
+<h3 id="外网访问容器"><a href="#外网访问容器" class="headerlink" title="外网访问容器"></a>外网访问容器</h3><p>Docker做映射是由iptables+docker proxy来实现的。</p>
+<p>使用<code>ip netns exec 888f7bddf5e3 netstat -nltp</code>可以查看容器内的端口占用信息，docker proxy默认是开启的，可以选择关闭，关闭后使用端口监听查看的指令将查询不到监听的端口。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs bash">Chain PREROUTING (policy ACCEPT 0 packets, 0 bytes)<br> pkts bytes target     prot opt <span class="hljs-keyword">in</span>     out     <span class="hljs-built_in">source</span>               destination         <br> 447K   23M DOCKER     all  --  *      *       0.0.0.0/0            0.0.0.0/0            ADDRTYPE match dst-type LOCAL<br><br>Chain DOCKER (2 references)<br> pkts bytes target     prot opt <span class="hljs-keyword">in</span>     out     <span class="hljs-built_in">source</span>               destination         <br>    1    84 RETURN     all  --  docker0 *       0.0.0.0/0            0.0.0.0/0           <br>    0     0 RETURN     all  --  br-610d9300c055 *       0.0.0.0/0            0.0.0.0/0           <br>    0     0 RETURN     all  --  br-7dde1c124308 *       0.0.0.0/0            0.0.0.0/0           <br>    6   284 DNAT       tcp  --  !br-610d9300c055 *       0.0.0.0/0            0.0.0.0/0            tcp dpt:26739 to:172.20.0.2:6379<br>   16   888 DNAT       tcp  --  !br-7dde1c124308 *       0.0.0.0/0            0.0.0.0/0            tcp dpt:5003 to:172.19.0.2:5003<br>   35  1780 DNAT       tcp  --  !br-7dde1c124308 *       0.0.0.0/0            0.0.0.0/0            tcp dpt:5443 to:172.19.0.2:5443<br><br><span class="hljs-comment"># 1    84 RETURN     all  --  docker0 *       0.0.0.0/0            0.0.0.0/0</span><br><span class="hljs-comment"># 源地址来自docker0网卡的包都同意放行</span><br><br><span class="hljs-comment"># 6   284 DNAT       tcp  --  !br-610d9300c055 *       0.0.0.0/0            0.0.0.0/0            tcp dpt:26739 to:172.20.0.2:6379</span><br><span class="hljs-comment"># 非!br-610d9300c055网卡发出的请求 访问26739时 目标地址修改为172.20.0.2:6379</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/../../images/10-29-docker/image-8.png" srcset="/img/loading.gif" lazyload alt="外网访问容器过程"></p>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a target="_blank" rel="noopener" href="https://www.zsythink.net/archives/tag/docker">https://www.zsythink.net/archives/tag/docker</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1SBLxzjEQB?vd_source=f36b415b8efd3a89c19f724191522fca">https://www.bilibili.com/video/BV1SBLxzjEQB</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%BF%9B%E4%BF%AE/" class="category-chain-item">进修</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/devops/" class="print-no-link">#devops</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Docker深入理解</div>
+      <div>https://wantoper.github.io/2025/10/30/2025/10-29-docker/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Wantoper</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年10月30日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/03/24/2026/03-24-linux-fiddler/" title="Linux下配合Fiddler或中间代理软件的配置使用">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Linux下配合Fiddler或中间代理软件的配置使用</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/08/13/2025/08-13-http-version/" title="HTTP协议版本的特点（HTTP/1.X、HTTP/2.0、HTTP/3.0）">
+                        <span class="hidden-mobile">HTTP协议版本的特点（HTTP/1.X、HTTP/2.0、HTTP/3.0）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
